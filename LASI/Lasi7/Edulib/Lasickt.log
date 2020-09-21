@@ -1,0 +1,41 @@
+*** Compile Log for 2NOR1  7.0.95  09/21/20  10:07:49
+
+Note: Read Text with Fixed Pitch Font
+
+
+**** Start of Script Compile ****
+
+
+**** Start of Spice Compile ****
+
+
+*** Compiling 2NOR1 ***
+
+Messages:
+Using Layout Rules at Level Depth 1
+21 Cells  15 Boxes  3 Paths  18 Text
+21 Boxes  0 Paths Added from 17 Smashed Cells, 36 Boxes  3 Paths  18 Text Total
+12 Boxes  0 Paths Added from 4 Lower Cells, 48 Boxes  3 Paths  18 Text Total
+
+ERROR ... There is a Possible Incorrect Parameter or Alias for Device Cell NMOS2X6_TOK at X=9 Y=20 
+
+ERROR ... There is a Possible Incorrect Parameter or Alias for Device Cell NMOS2X6_TOK at X=21 Y=20 
+
+ERROR ... There is a Possible Incorrect Parameter or Alias for Device Cell PMOS2X14_TOK at X=9 Y=58 
+
+ERROR ... There is a Possible Incorrect Parameter or Alias for Device Cell PMOS2X14_TOK at X=21 Y=58 
+
+Compile Results:
+             Main Circuit Nodes      Lower Cell Connection Types
+Devices (Real Virtual Symbol Total) (Count  Real Direct Virtual Symbol Total)
+     4     5       1      0     6      16    10      4       2      0    16
+
+
+Finished ...
+
+Circuit File:  2nor1.cir
+
+0 Warnings  4 Errors
+
+Final Compile Time: 0 hr 0 min 5 sec
+

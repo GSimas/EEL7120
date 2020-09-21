@@ -1,0 +1,129 @@
+;This is a sample check file that should show how checks are written.
+;Its parameters correspond to the LASI tutorial opamp circuit.
+;Revised Jan 2007
+
+title=Layer MET Overlap (1)
+resolution=.5
+distance=0
+operators=
+{
+    ovrlap,8    ;overlap metal
+    jrn         ;test results
+    dsp,0,w,2   ;display metal in map 0 in grey
+    dspr,Y,1    ;display overlaps in bright yellow
+    pause       ;optional pause after display
+    hcpy        ;optional hardcopy
+}
+
+ti=Fail MET Gaps <.2um (2)
+re=.05
+di=.2
+op=
+{
+    map,8       ;map metal
+    push,8      ;push on stack
+    jrc         ;nothing to do
+    expr        ;expand it
+    jrn         ;test results
+    dsp,8,w,1   ;display metal in grey
+    dspr,Y,1    ;display results in bright yellow
+    pause       ;pause after display
+    hcpy        ;optional hardcopy
+}
+ti=Fail METAL Spacing <10um (3)
+re=.5
+di=10
+op=
+{
+    map,8       ;map metal
+    push,8      ;push on stack
+    jrc         ;nothing to do
+    expr        ;expand it
+    jrn         ;test results
+    dsp,8,w,2   ;display metal in grey
+    dspr,Y,1    ;display results
+    pause       ;optional pause after display
+    hcpy        ;optional hardcopy
+}
+ti=Fail METAL Width <=10um (4)
+re=.5
+di=10
+op=
+{
+    map,8       ;map metal
+    push,8      ;push it
+    jrc         ;nothing to do
+    notr        ;invert metal
+    expr        ;expand inverse metal
+    jrn         ;test results
+    dsp,8,w,2
+    dspr,Y,1
+    pause       
+    hcpy
+}
+ti=Fail ISL to ISO Spacing <10um (5)
+di=10
+re=.5
+op=
+{
+    map,1       ;map island
+    map,2       ;map isolation
+    push,1      ;push island
+    jrc         ;no island
+    push,2      ;push isol
+    jrc         ;no isolation
+    exprs       ;expand one into the other
+    jrn         ;test results
+    dsp,1,B,2   ;display island in blue
+    dsp,2,R,2   ;display iso in red
+    dspr,Y,1    ;display results in bright yellow
+    pause
+    hcpy
+}
+ti=Fail MET over CONT Coverage <2um (6)
+di=2
+re=.25
+op=
+{
+    map,7       ;map contacts
+    push,7      ;push them
+    jrc         ;no contacts to do
+    map,8       ;map metal
+    push,8      ;push metal
+    xorrs       ;xor them
+    notr        ;invert
+    expr        ;expand result
+    jrn         ;test results
+    dsp,8,w,2   ;display metal in grey
+    dsp,7,B,2   ;display contacts in blue
+    dspr,Y,1    ;display results
+    pause
+    hcpy
+}
+ti=Check CONT in BASE or EMIT (7)
+di=0
+re=.25
+op=
+{
+    map,7       ;map contacts
+    push,7      ;push contacts
+    jrc         ;no contacts to do
+    map,2       ;map iso
+    map,4       ;map base P
+    map,6       ;map emitter N+
+    push,4      ;push base P
+    push,2      ;push iso
+    notr        ;invert iso
+    andrs       ;AND base with inverted iso
+    push,6      ;push emitter N+
+    orrs        ;OR them
+    notr        ;invert them
+    push,7      ;push contact
+    andrs       ;AND contact with P or N+
+    jrn         ;test results
+    dsp,4,R,2   ;display P in red
+    dsp,6,B,2   ;display N+in blue
+    dspr,Y,1    ;display results in bright yellow
+    pause
+    hcpy
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<TLC>
+;AMI_ABN process layers
+
+;Derived from MOSIS layer map
+;Always consult www.mosis.org for changes and additional information
+
+;Layer numbers are GDSII layer numbers
+;Comment indicates CIF layer names
+
+;This file will add the necessary layers to the layout
+;Install as TLD file with TLCin command
+<L>
+14
+NWELL 1  	;A01  
+PBASE 2		;A02  Optional  
+ACTIVE 3  	;A03  
+NCHANFLD 4  	;A04  Derived; if omitted, a copy of the drawn N_WELL is used.  
+POLY 9  	;A09  
+POLY2 10  	;A10  Optional  
+P+SELECT 11  	;A11  
+N+SELECT 12  	;A12   
+CONTACT 14  	;A14  
+METAL1 15  	;A15   
+VIA 16  	;A16   
+METAL2 17  	;A17   
+GLASS 18  	;A18  
+N-IMP 19  	;A19  Derived; if omitted, a copy of the drawn N+_SEL is used.
+</L>  
+</TLC>
+
+

@@ -1,0 +1,105 @@
+;*** Script for DELAYOSC (3)  7.0.71  02/27/11  20:36:04
+
+;cell1
+obj M1V1M2
+add 6 102 0
+
+;cell2
+obj M1V1M2
+add 175 102 0
+
+;cell3
+obj M1V1M2
+add 154 92 0
+
+;cell4
+obj M1V1M2
+add 165 92 0
+
+;cell5
+obj DELAY2
+add 0 0 0
+
+;cell6
+obj INV1
+add 159 0 0
+
+;path1
+obj p
+layr 51
+wdth 3
+add 6 38
+add 6 102
+aput
+
+;path2
+obj p
+layr 51
+wdth 3
+add 154 38
+add 154 92
+aput
+
+;path3
+obj p
+layr 51
+wdth 3
+add 165 38
+add 165 92
+aput
+
+;path4
+obj p
+layr 51
+wdth 3
+add 175 38
+add 175 102
+aput
+
+;path5
+obj p
+layr 49
+wdth 3
+add 154 92
+add 165 92
+aput
+
+;path6
+obj p
+layr 49
+wdth 3
+add 6 102
+add 175 102
+aput
+
+;text1
+tlyr 4
+tsiz 3
+text 156 92 out
+
+;text2
+tlyr 4
+tsiz 3
+text 155 102 out_
+
+;text3
+tlyr 6
+tsiz 3
+text 101 6 X1
+
+;text4
+tlyr 6
+tsiz 3
+text 167 6 X2
+
+;text5
+tlyr 4
+tsiz 3
+text 2 3.5 0
+
+;text6
+tlyr 4
+tsiz 3
+text 15 70.5 Vdd
+
+fit

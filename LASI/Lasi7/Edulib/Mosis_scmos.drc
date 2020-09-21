@@ -1,0 +1,3345 @@
+;MOSIS Generic Design Rule File for LASIDRC
+;February 2005
+;April 2006 27.5 changed
+;October 2006 3.3a turned on
+;March 2010 revised 
+
+;Set for SCMOS rules 
+;Select "distance=" parameter by number of metal layers
+
+;Rule group sections start with ";#"
+;Comments start with ";"
+
+;Rule types for parameter options are shown in parentheses.
+;To select an option comment out all but the desired value.   
+;To completely skip a particular test comment out "operators="
+
+;When a rule depends on the number of metal layes in a process,the larger value 
+;is usually the default. Change it if your processs allows a smaller value.
+
+;Rule groups 5 and 6 have alternate versions. Always check with MOSIS on this.
+
+;Most tests do not have resolution defined and will automatically calculate it.
+
+;Disclaimer:
+
+;These test sequences are intended for educational purposes. No claim is
+;made or implied that they will detect all possible design rule errors.
+;The design rule checks in this DRC file should find a very high percentage of
+;rule violations. Some rules are not checked because they are rare or are
+;difficult to test. There is also a large number of variations of rules due to
+;specific process requirements. When submitting designs to MOSIS we suggest
+;that you have MOSIS run a final DRC.
+
+
+
+;# 1. Well (scmos subm deep)
+
+title= 1.1 Well width
+distance= 10 lam (SCMOS)
+;distance= 12 lam (SUBM DEEP)
+;distance= 6 edu (CMOSEDU)
+resolution= .5 lam
+;resolution= .25 edu
+operators=
+{
+  map,41        ;make a bitmap of p-well
+  map,42        ;make a bitmap of n-well
+  push,41       ;push p-well into R
+  push,42       ;push n-well into R, p-well into S
+  orrs          ;or R,S to combine p-well and n-well
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse combined wells
+  expr          ;expand R to create wells merge bits
+  jrn           ;jump to next check area if no results
+  dsp,41,Y,3    ;display p-well in yellow
+  dsp,42,B,3    ;display n-well in blue
+  dspr,W,1      ;display well width errors in white
+  pause
+  scpy
+}
+
+title= 1.2 Well spacing
+distance= 9 lam (SCMOS)
+;distance= 18 lam (SUBM DEEP)
+;distance= 6 edu (CMOSEDU)
+resolution= .5
+;resolution= .25 edu
+operators=
+{
+  map,41        ;make a bitmap of p-well
+  map,42        ;make a bitmap of n-well
+  push,41       ;push p-well into R
+  expr          ;expand R to create p-well merge bits
+  mapr          ;save merge bits
+  push,42       ;push n-well into R
+  expr          ;expand R to create n-well merge bits
+  push,0        ;push p-well merge bits into R, n-well merge bits into S
+  orrs          ;or R,S to combine results
+  jrn           ;jump to next check area if no results
+  dsp,41,Y,3    ;display p-well in yellow
+  dsp,42,B,3    ;display n-well in blue
+  dspr,W,1      ;display well spacing errors in white
+  pause
+  scpy
+}
+
+;1.3 Wells of same potential spacing =0 or >=6 lam not tested
+
+title= 1.4 Wells of different type spacing =0 lam
+distance= 0 lam
+resolution= 0.1 lam
+operators=
+{
+  map,41        ;make a bitmap of p-well
+  map,42        ;make a bitmap of n-well
+  push,41       ;push p-well into R
+  push,42       ;push n-well into R, p-well into S
+  andrs         ;and R,S to check for overlap
+  jrn           ;jump to next check area if no results
+  dsp,41,Y,3    ;display p-well in yellow
+  dsp,42,B,3    ;display n-well in blue
+  dspr,W,1      ;display well spacing errors in white
+  pause
+  scpy
+}
+
+;# 2. Active (scmos subm deep)
+
+title= 2.1 Active width and extension
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,46        ;make a bitmap of poly1
+  push,43       ;push active into R
+  push,46       ;push poly1 into R, active to S
+  notr          ;not R to make inverse poly1
+  andrs         ;and R,S to get active not under poly1
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse active not under poly1
+  expr          ;expand R to create active merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display active width errors in white
+  pause
+  scpy
+}
+
+title= 2.2 Active spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  push,43       ;push active into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create active merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display active spacing errors in white
+  pause
+  scpy
+}
+
+;N-well tests
+
+title= 2.3a PMOS source/drain active to n-well edge spacing (inner)
+distance= 5 lam (SCMOS)
+;distance= 6 lam (SUBM DEEP)
+;distance= 3 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+  map,43        ;active
+  map,42        ;n-well
+  map,45        ;n-select
+  push,43       ;active to R
+  jrc           ;jump to next check area if R is clear
+  push,42       ;n-well to R active to S
+  andrs         ;active in n-well
+  push,45       ;n-select to R
+  notr          ;inverse n-select
+  andrs         ;active in n-well not in n-select
+  push,42       ;n-well again to R active to S
+  notr          ;inverse n-well
+  exprs         ;expand n-well to active in n-well
+  jrn           
+  dsp,42,B,3    ;display n-well in blue
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display n-well overlap of active errors in white
+  pause
+  scpy
+}
+
+title= 2.3b NMOS source/drain active to n-well edge spacing (outer)
+distance= 5 lam (SCMOS)
+;distance= 6 lam (SUBM DEEP)
+;distance= 3 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+  map,43      ;active
+  map,42      ;n-well
+  map,45      ;n-select
+  push,43     ;active to R
+  jrc         ;jump to next check area if R is clear
+  push,42     ;n-well to R active to S
+  notr        ;inverse n-well
+  andrs       ;active not in n-well
+  push,45     ;n-select to R
+  andrs       ;active not in n-well in n-select
+  push,42     ;n-well again to R active to S
+  exprs       ;expand n-well
+  jrn		
+  dsp,42,B,3  ;display n-well in blue
+  dsp,43,G,2  ;display active in green
+  dspr,W,1    ;display n-well overlap of active errors in white
+  pause
+  scpy
+}
+
+;P-well tests
+
+title= 2.3c NMOS source/drain active to p-well edge spacing (inner)
+distance= 5 lam (SCMOS)
+;distance= 6 lam (SUBM DEEP)
+;distance= 3 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+  map,43        ;active
+  map,41        ;p-well
+  map,44        ;p-select
+  push,43       ;active to R
+  jrc           ;jump to next check area if R is clear
+  push,41       ;p-well to R active to S
+  andrs         ;active in p-well
+  push,44       ;p-select to R
+  notr          ;inverse p-select
+  andrs         ;active in p-well not in p-select
+  push,41       ;p-well again to R active to S
+  notr          ;inverse p-well
+  exprs         ;expand R to create expanded not p-well in S
+  jrn           
+  dsp,41,Y,3    ;display p-well in yellow
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display p-well overlap of active errors in white
+  pause
+  scpy
+}
+
+title= 2.3d PMOS source/drain active to p-well edge spacing (outer)
+distance= 5 lam (SCMOS)
+;distance= 6 lam (SUBM DEEP)
+;distance= 3 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+  map,43      ;active
+  map,41      ;p-well
+  map,44      ;p-select
+  push,43     ;active to R
+  jrc         ;jump to next check area if R is clear
+  push,41     ;p-well to R active to S
+  notr        ;inverse p-well
+  andrs       ;active not in p-well
+  push,44     ;p-select to R
+  andrs       ;active not in p-well in p-select
+  push,41     ;p-well again to R active to S
+  exprs       ;expand p-well
+  jrn		
+  dsp,41,Y,3  ;display p-well in yellow
+  dsp,43,G,2  ;display active in green
+  dspr,W,1    ;display p-well overlap of active errors in white
+  pause
+  scpy
+}
+
+;N-well tests
+
+title= 2.4a P+ substrate connection to n-well edge spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+ map,42        ;n-well 
+ map,43        ;active
+ map,44        ;p-select
+ push,43       ;active to R
+ jrc           ;jump to next check area if R is clear
+ push,42       ;n-well to R active to S
+ notr          ;not n-well
+ andrs         ;active not in n-well
+ push,44       ;p-select to R
+ andrs         ;p+ active not in n-well (substrate connections)
+ push,42       ;n-well again to R active to S
+ exprs         ;expand RS to see spacing errors <4
+ jrn
+ dsp,42,B,3    ;display n-well in blue
+ dsp,43,G,2    ;display active in green
+ dspr,W,1      ;display errors
+ pause
+ scpy
+}
+
+title= 2.4b N+ well connection to n-well edge spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+ map,42        ;n-well 
+ map,43        ;active
+ map,45        ;n-select
+ push,43       ;active to R
+ jrc           ;jump to next check area if R is clear
+ push,42       ;n-well to R active to S
+ andrs         ;active in n-well
+ push,45       ;n-select to R
+ andrs         ;n+ active in n-well 
+ push,42       ;n-well again to R n+ active to S
+ notr          ;not n-well
+ exprs         ;expand RS to see spacing errors <4
+ jrn
+ dsp,42,B,3    ;display n-well in blue
+ dsp,43,G,2    ;display active in green
+ dspr,W,1      ;display errors in white
+ pause
+ scpy
+}
+
+;P-well tests
+
+title= 2.4c P+ well connection to p-well edge spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+ map,41        ;p-well 
+ map,43        ;active
+ map,44        ;p-select
+ push,43       ;active to R
+ jrc           ;jump to next check area if R is clear
+ push,41       ;p-well to R active to S
+ andrs         ;active in p-well
+ push,44       ;p-select to R
+ andrs         ;p+ active in p-well 
+ push,41       ;p-well again to R active to S
+ notr          ;inverse p-well
+ exprs         ;expand RS to see spacing errors <4
+ jrn
+ dsp,41,Y,3    ;display p-well in yellow
+ dsp,43,G,2    ;display active in green
+ dspr,W,1      ;display errors in white
+ pause
+ scpy
+}
+
+title= 2.4d N+ substrate connection to p-well edge spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+;resolution= 0.5 lam
+operators=
+{
+ map,41        ;p-well 
+ map,43        ;active
+ map,45        ;n-select
+ push,43       ;active to R
+ jrc           ;jump to next check area if R is clear
+ push,41       ;p-well to R active to S
+ notr          ;not p-well
+ andrs         ;active in not in p-well
+ push,45       ;n-select to R
+ andrs         ;n+ active not in p-well 
+ push,41       ;p-well again to R active to S
+ exprs         ;expand RS to see spacing errors <4
+ jrn
+ dsp,41,Y,3    ;display p-well in yellow
+ dsp,43,G,2    ;display active in green
+ dspr,W,1      ;display errors
+ pause
+ scpy
+}
+
+title= 2.5 Active of different select spacing non-abutting
+;distance= 2 lam (CMOSEDU)
+distance= 4 lam (SCMOS SUBM DEEP)
+resolution= 0.1 lam
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,44        ;make a bitmap of pselect
+  map,45        ;make a bitmap of nselect
+  push,44       ;push pselect into R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R pselect to S
+  andrs         ;active in pselect into R
+  expr,0          ;expanded active in pselect into S
+  savs          ;save expanded active in pselect
+  push,45       ;push nselect into R
+  push,43       ;push active into R nselect into S
+  andrs         ;active in nselect into R
+  jrc           ;jump to next check area if R is clear
+  expr,0          ;expanded active in nselect into S
+  swaprs        ;swap expanded from S to R
+  rets          ;active in pselect into S          
+  andrs         ;and R,S to get active/nselect/pselect overlap
+  jrn           ;jump to next check area if no results
+  dsp,44,Y,2    ;display pselect in yellow
+  dsp,45,B,2    ;display nselect in blue
+  dspr,W,1      ;display active spacing errors in white
+  pause
+  scpy
+}
+
+;# 3. Poly1 (scmos subm deep)
+
+title= 3.1 Poly1 width
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,46        ;make bitmap of poly1
+  push,46       ;push poly1 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse poly1
+  expr          ;expand R to create poly1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly1 in red
+  dspr,W,1      ;display poly1 width errors in white
+  pause
+  scpy
+}
+
+title= 3.2 Poly1 spacing  (over active)
+distance= 2 lam (SCMOS)
+.distance= 3 lam (SUBM)
+;distance= 4 lam (DEEP)
+;distance= 2 edu (CMOSEDU)
+;operators=
+{  
+  map,43        ;make bitmap of active
+  map,46        ;make bitmap of poly1
+  push,46       ;push poly1 into R
+  push,43       ;push active into R poly1 into S
+  andrs         ;poly1 on active in R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand to create poly1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly1 int red
+  dspr,W,1      ;display poly1 spacing errors in white
+  pause
+  scpy
+}
+
+title= 3.2 Poly1 spacing  (over field)
+distance= 2 lam (SCMOS)
+;distance= 3 lam (SUBM DEEP)
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{  
+  map,43        ;make bitmap of active
+  map,46        ;make bitmap of poly1
+  push,46       ;push poly1 into R
+  push,43       ;push active into R poly1 into S
+  notr          ;invert active in R
+  andrs         ;poly1 on active in R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand to create poly1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly1 in red
+  dspr,W,1      ;display poly1 spacing errors in white
+  pause
+  scpy
+}
+
+title= 3.3a Poly1 gate extension (scmos subm deep <2lam cmosedu <1edu)
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make bitmap of active
+  map,46        ;make bitmap of poly1
+  push,43       ;push active into R
+  push,46       ;push poly into R active into s
+  jrc           ;jump to next check area if R is clear (no poly)
+  xorrs         ;xor R,S to get poly1 over field
+  notr          ;not R to make inverse field poly1
+  expr          ;expand R to create poly1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,3    ;display active in green
+  dsp,46,R,2    ;display poly1 in red
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+;The following check can run a long time on a large layout.
+;Since it is rarely used except for poly1 extending beyond
+;active in cmos devices you might want to comment it out.
+
+title= 3.3b Poly1 gate extension (scmos subm)
+distance= .5 lam
+;distance= .25 edu (CMOSEDU)
+guardband= 2 lam (SCMOS SUBM)
+;guardband= 2.5 lam  (DEEP)
+;guardband= 1.25 edu (CMOSEDU)
+;operators=
+{
+  map,43        ;make bitmap of active
+  map,46        ;make bitmap of poly1
+  push,43       ;push active into R
+  expr          ;expand active by distance once
+  popr
+  push,46       ;push poly1 into R active into S
+  xorrs         ;xor R,S to get poly1 over field
+  notr          ;not R to make inverse field poly1
+  jrc           ;jump to next check area if R is clear (no poly)
+  expr          ;expand R by distance
+  popr
+  expr          ;expand R by 2x distance
+  popr
+  expr          ;expand R by 3x distance
+  popr
+  expr          ;expand R to 4x distance
+  jrn           ;jump to next check area if no results
+  dsp,43,G,3    ;display active in green
+  dsp,46,R,2    ;display poly1 in red
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+;The following check can run a long time on a large layout.
+;Since it is rarely used except for poly1 extending beyond
+;active in cmos devices you might want to comment it out.
+
+;title= 3.3c Poly1 gate extension (deep cmosedu)
+distance= .5 lam
+;distance= .25 edu (CMOSEDU)
+;guardband= 2 lam (SCMOS SUBM)
+guardband= 2.5 lam  (DEEP)
+;guardband= 1.25 edu (CMOSEDU)
+;operators=
+{
+  map,43        ;make bitmap of active
+  map,46        ;make bitmap of poly1
+  push,43       ;push active into R
+  expr,0        ;expand active by distance, bias 0
+  popr
+  expr,0        ;expand active by 2x distance, bias 0
+  popr
+  push,46       ;push poly1 into R active into S
+  xorrs         ;xor R,S to get poly1 over field
+  notr          ;not R to make inverse field poly1
+  jrc           ;jump to next check area if R is clear (no poly)
+  expr,0        ;expand R by distance, bias 0  
+  popr
+  expr,-1       ;expand R by 2x distance, bias -1 (create test overlap)
+  popr
+  expr,-1       ;expand R by 3x distance, bias -1
+  popr
+  expr,2        ;expand R to 4x distance, bias 2
+  jrn           ;jump to next check area if no results
+  dsp,43,G,3    ;display active in green
+  dsp,46,R,2    ;display poly1 in red
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+;3.4 Active gate extension tested in 2.1
+
+title= 3.5 Poly1 to active
+distance= 1.0 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make bitmap of active
+  map,46        ;make bitmap of poly1
+  push,43       ;push active into R
+  push,46       ;push poly into R active into S
+  orrs          ;or R,S to get poly1+active
+  jrc           ;jump to next check area if R is clear (no poly+active)
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,3    ;display active in green
+  dsp,46,R,2    ;display poly1 in red
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+;# 4. Select (scmos subm deep)
+
+;4.1 P+/N+ select boundary spacing to poly1 not tested
+
+title= 4.2 Select overlap of active
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,44        ;make a bitmap of pselect
+  map,45        ;make a bitmap of nselect
+  push,44       ;push pselect into R
+  push,45       ;push nselect into R, pselect into S
+  orrs          ;or R,S to combine selects
+  notr          ;not R to make inverse select
+  push,43       ;push active into R, inverse select into S
+  exprs         ;expand R,S to create active to select merge bits
+  jrn           ;jump to next check area if no results
+  dsp,44,Y,2    ;display pselect in yellow
+  dsp,45,B,2    ;display nselect in blue
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display select overlap of active errors in white
+  pause
+  scpy
+}
+
+title= 4.3 Select overlap of contact
+distance= 1 lam (SCMOS SUBM)
+;distance= 1.5 lam (DEEP)
+;distance= .75 edu (CMOSEDU)
+;operators=
+{
+  map,25        ;make a bitmap of contact
+  map,44        ;make a bitmap of pselect
+  map,45        ;make a bitmap of nselect
+  push,45       ;push nselect into R
+  push,25       ;push contact into R, nselect into S
+  jrc           ;jump to next check area if R is clear
+  andrs         ;and R,S to get nselect contact
+  push,45       ;push nselect into R, nselect contact into S
+  notr          ;not R to make inverse nselect
+  exprs         ;expand R,S to create contact to nselect merge bits
+  mapr          ;save results
+  push,44       ;push pselect into R
+  push,25       ;push contact into R, pselect into S
+  andrs         ;and R,S to get pselect contact
+  push,44       ;push pselect into R, pselect contact into S
+  notr          ;not R to make inverse pselect
+  exprs         ;expand R,S to create pselect to contact merge bits
+  push,0        ;push nselect results into R, pselect results into S
+  orrs          ;combine results
+  jrn           ;jump to next check area if no results
+  dsp,44,Y,2    ;display pselect in yellow
+  dsp,45,B,2    ;display nselect in blue
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display select overlap of contact errors in white
+  pause
+  scpy
+}
+
+title= 4.4 Select width and spacing
+distance= 2 lam (SCMOS SUBM)
+;distance= 4 lam (DEEP)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,44        ;make a bitmap of pselect
+  map,45        ;make a bitmap of nselect
+  push,44       ;push nselect into R
+  push,45       ;push pselect into R
+  orrs          ;or R,S to combine selects
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create select spacing merge bits
+  mapr          ;save results
+  push,44       ;push nselect into R
+  push,45       ;push pselect into R
+  orrs          ;or R,S to combine selects
+  notr          ;not R to make inverse select
+  expr          ;expand R to create select merge bits
+  push,0        ;get spacing errors
+  orrs          ;or R,S to combine spacing and width results
+  jrn           ;if R has no errors skip to next test
+  dsp,44,Y,2    ;display pselect in yellow
+  dsp,45,B,2    ;display nselect in blue
+  dspr,W,1      ;display select width and spacing errors in white
+  pause
+  scpy
+}
+
+title= 4.4a Select spacing =0 lam
+distance= 0 lam
+resolution= 0.1 lam
+operators=
+{
+  map,44        ;make a bitmap of pselect
+  map,45        ;make a bitmap of nselect
+  push,44       ;push pselect into R
+  jrc           ;jump to next check area if R is clear
+  push,45       ;push nselect into R, pselect into S
+  andrs         ;and R,S to get nselect/pselect overlap
+  jrn           ;jump to next check area if no results
+  dsp,44,Y,2    ;display pselect in yellow
+  dsp,45,B,2    ;display nselect in blue
+  dspr,W,1      ;display active spacing errors in white
+  pause
+  scpy
+}
+
+;# 5. Contact to poly1 (scmos subm deep)
+;Rule 5 has two versions, use either but simple is preferred
+
+title= 5.1 Exact contact size
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  size,25       ;use size macro, results in R, contact in S
+  jrn           ;if no errors goto the next test
+  dsps,B,2      ;display contact in blue
+  dspr,W,1      ;display contact size errors in white
+  pause
+  scpy
+}
+
+title= 5.2 Poly1 overlap of contact (simple)
+distance= 1.5 lam
+;distance= .75 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,46        ;make a bitmap of poly1
+  push,25       ;push contact into R
+  jrc           ;jump to next check area if R is clear
+  push,46       ;push poly1 into R, contact into S
+  andrs         ;get poly1 contact
+  push,46       ;push poly1 into R, poly1 contact into S
+  notr          ;not R to make inverse poly1
+  exprs         ;expand R,S to create poly1 to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly1 in red
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display poly1 overlap of contact errors in white
+  pause
+  scpy
+}
+
+title= 5.2b Poly1 contact overlap (alternate)
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+;operators=
+{
+  map,25        ;make a bitmap of contact
+  map,46        ;make a bitmap of poly1
+  push,25       ;push contact into R
+  jrc           ;jump to next check area if R is clear
+  push,46       ;push poly1 into R, contact into S
+  andrs         ;get poly1 contact
+  push,46       ;push poly1 into R, poly1 contact into S
+  notr          ;not R to make inverse poly1
+  exprs         ;expand R,S to create poly1 to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly1 in red
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display poly1 overlap of contact errors in white
+  pause
+  scpy
+}
+
+title= 5.3 Contact spacing
+distance= 2 lam (SCMOS)
+;distance= 3 lam (SUBM)
+;distance= 4 lam (DEEP)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  push,25       ;push contact into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display contact spacing errors in white
+  pause
+  scpy
+}
+
+title= 5.4 Contact to gate of transistor spacing
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,43        ;make a bitmap of active
+  map,46        ;make a bitmap of poly1
+  push,43       ;push active into R
+  jrc           ;jump to next check area if R is clear
+  push,25       ;push contact into R, active into S
+  andrs         ;and R,S to get active contact
+  mapr          ;save active contact
+  push,43       ;push active into R
+  push,46       ;push poly1 into R, active into S
+  andrs         ;and R,S to get gate of transistor
+  push,0        ;push active contact into R, gate into S
+  exprs         ;expand R,S to create contact to gate merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,3    ;display active in green
+  dsp,46,R,2    ;display poly1 in red
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display contact to gate of transistor errors in white
+  pause
+  scpy
+}
+
+;5.5b should be tested by 5.3+3.2 (alternate)
+;1+3=poly1 contact overlap + poly1 spacing (field subm)
+;1+4=poly1 contact overlap + poly1 spacing (field deep)
+
+title= 5.6b Poly1 contact to active spacing (alternate)
+distance= 2 lam
+;distance= 3 lam (many contacts)
+;distance= 1 edu (CMOSEDU)
+;operators=
+{
+  map,25        ;make a bitmap of contact
+  map,43        ;make a bitmap of active
+  map,46        ;make a bitmap of poly1
+  push,25       ;push contact into R    
+  push,46       ;push poly1 into R contact to S
+  andrs         ;contacts in poly1 in R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R not active contacts to S
+  exprs         ;expand R,S to create contact to via1 merge bits
+  jrn           ;if R as no errors goto next test
+  dsp,25,w,2    ;display contact in gray
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display active to contact spacing errors in white
+  pause
+  scpy
+}
+
+;# 6. Contact to active (scmos subm deep)
+;Rule 6 has two versions, use either but simple is preferred
+
+;6.1 Exact contact size tested in 5.1
+
+title= 6.2 Active overlap of contact (simple)
+distance= 1.5 lam
+;distance= .75 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,43        ;make a bitmap of active
+  push,25       ;push contact into R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R, contact into S
+  andrs         ;and R,S to get active contact
+  push,43       ;push active into R, active contact into S
+  notr          ;not R to make inverse active
+  exprs         ;expand R,S to create active to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display active overlap of contact errors in white
+  pause
+  scpy
+}
+
+title= 6.2b Active overlap of contact (alternate)
+distance= 1 lam
+;distance= .5 edu (CMOSEDU) 
+;operators=
+{
+  map,25        ;make a bitmap of contact
+  map,43        ;make a bitmap of active
+  push,25       ;push contact into R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R, contact into S
+  andrs         ;and R,S to get active contact
+  push,43       ;push active into R, active contact into S
+  notr          ;not R to make inverse active
+  exprs         ;expand R,S to create active to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display active overlap of contact errors in white
+  pause
+  scpy
+}
+
+;title= 6.3 Contact spacing
+;tested in 5.3
+
+title= 6.4 Contact to gate of transistor spacing
+;tested in 5.4
+
+;# 7. Metal1 (scmos subm deep)
+
+;title= 7.0 Metal1 overlap
+;operators=
+{
+  map,49        ;make a bitmap of metal1
+  ovrlap,49     ;overlap metal1 into R
+  jrn           ;next check if none
+  dsp,49,w,3    ;display metal1 in gray
+  dspr,R,1      ;display metal1 overlap in red
+  pause
+  scpy
+}
+
+title= 7.1 Metal1 width
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,49        ;make a bitmap of metal1
+  push,49       ;push metal1 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal1
+  expr          ;expand R to create metal1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,49,B,3    ;display metal1 in blue
+  dspr,W,1      ;display metal1 width errors in white
+  pause
+  scpy
+}
+
+title= 7.2 Metal1 spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,49        ;make a bitmap of metal1
+  push,49       ;push metal1 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create metal1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,49,B,3    ;display metal1 in blue
+  dspr,W,1      ;display metal1 spacing errors in white
+  pause
+  scpy
+}
+
+title= 7.3 Metal1 overlap of contact
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,49        ;make a bitmap of metal1
+  push,49       ;put metal1 into R
+  jrc           ;jump to next check area if R is clear
+  push,25       ;push contact into R, metal1 into S
+  andrs         ;and R,S to get metal1 contact
+  push,49       ;put metal1 into R, metal1 contact into S
+  notr          ;not R to make inverse metal1
+  exprs         ;expand R,S to create metal1 to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,49,B,3    ;display metal1 in blue
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display metal1 overlap of contact errors in white
+  pause
+  scpy
+}
+
+;This test is normally not run because it produces many "false positives".
+;Disable by commenting out "operators=".
+
+;It first checks for metal5 >10 lam in the check area.
+;It then checks metal1 spacing 5to<6 lam or 3to<4 lam for SCMOS
+;You should visually check the actual layout for true errors.
+
+title= 7.4 Minimum spacing when either metal1 is wider than 10 lam 
+distance= 1 lam (SUBM DEEP SCMOS)
+;distance= .5 edu (CMOSEDU)
+resolution=.1
+;resolution=.05
+;operators=
+{
+
+  map,49        ;make a bitmap of metal1
+  push,49       ;push metal1 into R
+  jrc		;jump if nothing
+  notr          ;invert metal1
+  expr,1        ;expand by dist x 1
+  popr
+  expr,1        ;expand by dist x 2
+  popr
+  expr,1        ;expand by dist x 3
+  popr
+  expr,1        ;expand by dist x 4
+  popr
+  expr,1        ;expand by dist x 5
+  popr
+  expr,1        ;expand by dist x 6
+  popr
+  expr,1        ;expand by dist x 7
+  popr
+  expr,1        ;expand by dist x 8
+  popr
+  expr,1        ;expand by dist x 9
+  popr
+  expr,1        ;expand by dist x 10
+  popr
+  notr          
+  push,49       ;push metal1 into R expanded to S
+  andrs         ;any gaps in expanded
+  jrc           ;jump to next check area if R is clear
+
+  push,49       ;push metal1 into R expanded to S
+  expr          ;expand by 1-1bit
+  popr
+  expr,1        ;expand by 2
+  popr
+  expr,1        ;expand by 3
+  popr
+  expr,1        ;expand by 4 comment out below for SCMOS
+  ;popr 	
+  ;expr,1        ;expand by 5
+  ;popr 
+  ;expr,1        ;expand by 6
+
+  jrn           ;jump to next check area if no results
+  dsp,49,B,3    ;display metal1 in blue
+  dspr,W,1      ;display metal1 spacing errors in white
+  pause
+  scpy
+}
+
+
+;# 8. Via (scmos subm deep)
+
+title=  8.1 Exact via1 size
+distance= 2.0 lam (SCMOS SUBM)
+;distance= 3.0 lam (DEEP)
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,26        ;make a bitmap of pads
+  size,50       ;use size macro, results in R, via1 in S
+  jrc           ;jump to next check area if R is clear
+  swaprs        ;swap R and S
+  mapr          ;save via1 map
+  swaprs        ;swap R and S back again
+  push,26       ;push pads
+  notr          ;not R to make inverse pads
+  andrs         ;and R,S to remove size results in pads
+  jrn           ;jump to next check area if no results
+  dsp,0,C,2     ;display via1 in cyan
+  dspr,W,1      ;display via1 size errors in white
+  pause
+  scpy
+}
+
+title= 8.2 Via1 spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,50        ;make a bitmap of via1
+  push,50       ;push via1 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create via1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,50,C,2    ;display via1 in cyan
+  dspr,W,1      ;display via1 spacing errors in white
+  pause
+  scpy
+}
+
+title= 8.3 Metal1 overlap of via1
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,49        ;make a bitmap of metal1
+  map,50        ;make a bitmap of via1
+  push,50       ;push via1 into R
+  jrc           ;jump to next check area if R is clear
+  push,49       ;push metal1 into R, via1 into S
+  andrs         ;and R,S to get metal1 via1 only
+  push,49       ;push metal1 into R, metal1 via1 into S
+  notr          ;not R to make inverse metal1
+  exprs         ;expand R,S to create metal1 to via1 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,49,B,3    ;display metal1 in blue
+  dsp,50,C,2    ;display via1 in cyan
+  dspr,W,1      ;display metal1 overlap of via1 errors in white
+  pause
+  scpy
+}
+
+title= 8.4 Via1 to contact spacing (non-stacked vias)
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,50        ;make a bitmap of via1
+  push,50       ;push via1 into R
+  jrc           ;jump to next check area if R is clear
+  push,25       ;push contact into R, via1 into S
+  exprs         ;expand R,S to create contact to via1 merge bits
+  jrn           ;if R as no errors goto next test
+  dsp,25,w,2    ;display contact in gray
+  dsp,50,C,2    ;display via1 in cyan
+  dspr,W,1      ;display via1 to contact spacing errors in white
+  pause
+  scpy
+}
+
+title= 8.5 Via1 to poly1 or active edge spacing
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,46        ;make a bitmap of poly1
+  map,50        ;make a bitmap of via1
+  push,43       ;push active into R
+  push,46       ;push poly1 into R, active into S
+  orrs          ;or R,S to combine active and poly1
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse active and poly1
+  push,50       ;push via1 into R, active and poly1 into S
+  andrs         ;and R,S to get via1 outside active and poly1
+  mapr          ;save via1 outside active and poly1
+  push,43       ;push active into R
+  push,46       ;push poly1 into R, active into S
+  orrs          ;or R,S to combine active and poly1
+  push,0        ;push via1 outside active and poly1 into R
+  exprs         ;expand R,S to create via1 to active and poly1 merge bits
+  mapr          ;save any results
+  push,43       ;push active into R
+  notr          ;not R to make inverse active
+  push,46       ;push poly1 into R, inverse active into S
+  notr          ;not R to make inverse poly1
+  orrs          ;or R,S to get via1 inside active and poly1
+  push,50       ;push via1 int R
+  expr          ;expand R to create via1 inside active merge bits
+  push,0        ;push results from outside via1
+  orrs          ;or R,S to combine both results
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dsp,46,R,2    ;display poly1 in red
+  dsp,50,C,2    ;display via1 in cyan
+  dspr,W,1      ;display via1 to poly1 or active spacing errors in white
+  pause
+  scpy
+}
+
+;# 9. Metal2 (scmos subm deep)
+
+;title= 9.0 Metal2 overlap
+;operators=
+{
+  map,51        ;make a bitmap of metal1
+  ovrlap,51     ;overlap metal2 into R
+  jrn           ;next check if none
+  dsp,51,w,3    ;display metal2 in gray
+  dspr,G,1      ;display metal2 overlap in green
+  pause
+  scpy
+}
+
+title= 9.1 Metal2 width
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,51        ;make a bitmap of metal2
+  push,51       ;push metal2 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal2
+  expr          ;expand R to create metal merge bits
+  jrn           ;jump to next check area if no results
+  dsp,51,B,3    ;display metal2 in blue
+  dspr,W,1      ;display metal2 width errors in white
+  pause
+  scpy
+}
+
+title= 9.2 Metal2 spacing
+distance= 3 lam (SCMOS SUBM)
+;distance= 4 lam (DEEP)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,51        ;make a bitmap of metal2
+  push,51       ;push metal2 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create metal2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,51,B,3    ;display metal2 in blue
+  dspr,W,1      ;display metal2 spacing errors in white
+  pause
+  scpy
+}
+
+title= 9.3 Metal2 overlap of via1
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,50        ;make a bitmap of via1
+  map,51        ;make a bitmap of metal2
+  push,51       ;push metal2 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal2
+  push,50       ;push via1 into R, inverse metal2 into S
+  exprs         ;expand R,S to create via1 to inverse metal2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,51,B,3    ;display metal2 in blue
+  dsp,50,C,2    ;display via1 in cyan
+  dspr,W,1      ;display metal2 overlap of via1 errors in white
+  pause
+  scpy
+}
+
+;This test is normally not run because it produces many "false positives".
+;Disable by commenting out "operators=".
+
+;It first checks for metal5 >10 lam in the check area.
+;It then checks any metal2 spacing 5to<6 lam or 7to<8 for DEEP.
+;You should visually check the actual layout for true errors.
+
+title= 9.4 Minimum spacing when either metal2 is wider than 10 lam 
+distance= 1 lam (SUBM DEEP SCMOS)
+;distance= .5 edu (CMOSEDU)
+resolution=.1
+;resolution=.05
+;operators=
+{
+
+  map,51        ;make a bitmap of metal2
+  push,51       ;push metal2 into R
+  jrc		;jump if nothing
+  notr          ;invert metal2
+  expr,1        ;expand by dist x 1
+  popr
+  expr,1        ;expand by dist x 2
+  popr
+  expr,1        ;expand by dist x 3
+  popr
+  expr,1        ;expand by dist x 4
+  popr
+  expr,1        ;expand by dist x 5
+  popr
+  expr,1        ;expand by dist x 6
+  popr
+  expr,1        ;expand by dist x 7
+  popr
+  expr,1        ;expand by dist x 8
+  popr
+  expr,1        ;expand by dist x 9
+  popr
+  expr,1        ;expand by dist x 10
+  popr
+  notr          
+  push,51       ;push metal2 into R expanded to S
+  andrs         ;any gaps in expanded
+  jrc           ;jump to next check area if R is clear
+
+  push,51       ;push metal2 into R expanded to S
+  expr          ;expand by 1-1bit
+  popr
+  expr,1        ;expand by 2
+  popr
+  expr,1        ;expand by 3
+  popr
+  expr,1        ;expand by 4
+  popr
+  expr,1        ;expand by 5
+  popr
+  expr,1        ;expand by 6 comment out below for SCMOS,SUBM
+  ;popr
+  ;expr,1        ;expand by 7
+  ;popr 
+  ;expr,1        ;expand by 8
+
+  jrn           ;jump to next check area if no results
+  dsp,51,B,3    ;display metal2 in blue
+  dspr,W,1      ;display metal2 spacing errors in white
+  pause
+  scpy
+}
+
+;10.1 not tested
+;10.2 not tested
+;10.3 not tested
+;10.4 not tested
+;10.5 not tested
+
+;# 11. Poly2 for capacitor (scmos subm)
+
+title= 11.1 Poly2 width
+distance= 3 lam (SCMOS)
+;distance= 7 lam (SUBM)
+;distance= 3.5 edu (CMOSEDU)
+operators=
+{
+  map,56        ;make a bitmap of poly2
+  push,56       ;push poly2 into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly
+  push,46       ;push poly into R
+  andrs         ;to get poly2 for capacitor
+  notr          ;make inverse poly2 
+  expr          ;check width
+  jrn           ;jump to next check area if no results
+  dsp,56,Y,2    ;display poly2 in orange
+  dsp,46,R,2    ;display poly in red
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 11.2 Poly2 spacing (scmos subm)
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,56        ;make a bitmap of poly2
+  push,56       ;push poly2 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create poly2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,56,Y,2    ;display poly2 in orange
+  dspr,W,1      ;display poly2 spacing errors in white
+  pause
+  scpy
+}
+
+title= 11.3 Poly1 overlap (scmos subm)
+distance= 2 lam (SCMOS)
+;distance= 5 lam (SUBM)
+;distance= 2.5 edu (CMOSEDU)
+;operators=
+{
+  map,56        ;make a bitmap of poly2
+  push,56       ;push poly2 into R
+  jrc           ;jump to next check area if R is clear
+  expr		;expand poly2, expanded to S
+  popr          ;S to R
+  expr		;expand poly2 again, expanded to S
+  popr          ;S to R again
+  map,46        ;make a bitmap of poly
+  push,46       ;push poly1 into R poly2 into S
+  notr          ;invert poly1
+  andrs         ;RS overlap
+  jrn           ;jump to next check area if no results
+  dsp,56,Y,2    ;display poly2 in orange/yellow
+  dsp,46,R,3    ;display poly in red
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 11.4 Poly2 to active or well edge spacing (scmos subm)
+;cannot handle poly2 over active (Like 12.4)
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,41        ;make a bitmap of p-well
+  map,42        ;make a bitmap of n-well
+  map,43        ;make a bitmap of active
+  map,46        ;make a bitmap of poly1
+  map,56        ;make a bitmap of poly2
+  map,59        ;make a bitmap of cap well
+  push,56       ;push poly2 into R
+  jrc           ;jump to next check area if R is clear
+  push,41       ;push p-well into R
+  push,42       ;push n-well into R, p-well into S
+  orrs          ;or R,S to combine p-well and n-well
+  push,59       ;push cap well into R, p-well and n-well into S
+  orrs          ;or R,S to get total well
+  push,43       ;push active into R, total well into S
+  orrs          ;or R,S to combine well and active
+  mapr          ;save combined well and active
+  push,46       ;push poly1 into R
+  push,56       ;push poly2 into R, poly1 into S
+  andrs         ;and R,S to get poly2 inside poly1
+  push,0        ;push well and active into R, poly2 inside poly1 into S
+  exprs         ;expand R,S to create well and active to poly2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,41,Y,3    ;display p-well in yellow
+  dsp,42,B,3    ;display n-well in blue
+  dsp,59,w,3    ;display cap well in grey
+  dsp,43,G,2    ;display active in green
+  dsp,56,Y,2    ;display poly2 in orange
+  dspr,W,1      ;display poly2 spacing to active or well in white
+  pause
+  scpy
+}
+
+title= 11.5 Poly2 to poly1 contact spacing (scmos subm)
+distance= 3 lam (SCMOS)
+;distance= 6 lam (SUBM)
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,56        ;make a bitmap of poly2
+  push,56       ;push poly2 into R
+  jrc           ;if poly2 is clear go to next test
+  notr          ;not R to make inverse poly2
+  push,25       ;push contact into R, inverse poly2 into S
+  andrs         ;and R,S to get poly1 contact
+  push,56       ;push poly2 into R, poly1 contact into S
+  exprs         ;expand R,S to create poly2 to poly1 contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,25,w,2    ;display contact in gray
+  dsp,56,Y,2    ;display poly2 in orange
+  dspr,W,1      ;display poly2 to poly1 contact spacing errors in white
+  pause
+  scpy
+}
+
+;# 12. Poly2 for transistor (scmos subm)
+
+;12.1 Transistor poly2 width not tested
+;12.2 Transistor poly2 spacing tested in (29)
+
+title= 12.3 Transistor poly2 overlap of active (scmos subm)
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,56        ;make a bitmap of poly2
+  push,43       ;push active into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse active
+  push,56       ;push poly2 into R, inverse active into S
+  andrs         ;and R,S to get poly2 overlap of active
+  notr          ;not R to make inverse poly2 overlap of active
+  expr          ;expand R to create inverse overlap merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dsp,56,Y,3    ;display poly2 in orange
+  dspr,W,1      ;display poly2 overlap of active errors in white
+  pause
+  scpy
+}
+
+;12.4 Transistor poly2 to active spacing not tested
+;12.5 Transistor poly2 spacing or overlap of poly1 not tested
+;12.6 Transistor poly2 to poly1 or active contact spacing tested in 11.3
+
+;# 13. Poly2 Contact (scmos subm)
+
+;13.1 Analog exact contact size tested in 5.1
+;13.2 Analog contact spacing tested in 5.3
+
+title= 13.3 Poly2 (electrode) overlap (on capacitor)(scmos subm)
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,46        ;make a bitmap of poly1
+  map,56        ;make a bitmap of poly2
+  push,56       ;push poly2 into R
+  jrc           ;jump to next check area if R is clear
+  push,46       ;push poly1 into R, poly2 into S
+  andrs         ;and R,S get poly2 over poly1 (capacitor)
+  push,25       ;push contact into R, capacitor poly into S
+  andrs         ;and R,S to get contact in capacitor
+  push,56       ;push poly2 into R, contact in capacitor into S
+  notr          ;not R to make inverse poly2
+  exprs         ;expand R,S to create inverse poly2 to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly1 in red
+  dsp,56,Y,3    ;display poly2 in orange
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display poly2 overlap errors in white
+  pause
+  scpy
+}
+
+title= 13.4 Poly2 overlap (not on capacitor) (scmos subm)
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,56        ;make a bitmap of poly2
+  push,56       ;push poly2 into R
+  jrc           ;jump to next check area if R is clear
+  push,25       ;push contact into R, poly2 into S
+  andrs         ;and R,S to get poly2 contact
+  push,56       ;push poly2 into R
+  notr          ;not R to make inverse poly2
+  exprs         ;expand R,S to create poly2 to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,56,Y,2    ;display poly2 in orange
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display poly2 overlap errors in white
+  pause
+  scpy
+}
+
+;13.5 Contact to poly1 or active spacing not tested
+
+;# 14. Via2 (scmos subm deep)
+
+title= 14.1 Exact via2 size
+distance= 2.0 lam (SCMOS SUBM)
+;distance= 3.0 lam (DEEP)
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,26        ;make a bitmap of pads
+  size,61       ;use size macro, results in R, via2 in S
+  jrc           ;jump to next check area if no results
+  swaprs        ;swap R and S
+  mapr          ;save via2 map
+  swaprs        ;swap R and S back again
+  push,26       ;push pad map into R
+  notr          ;not R to make inverse pads
+  andrs         ;and R,S to remove size results in pads
+  jrn           ;jump to next check area if no results
+  dsp,0,w,2     ;display via2 in gray
+  dspr,W,1      ;display via2 size errors in white
+  pause
+  scpy
+}
+
+title= 14.2 Via2 spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,61        ;make bitmap of via2
+  push,61       ;push via2 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create via2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,61,w,2    ;display via2 in gray
+  dspr,W,1      ;display via2 spacing errors in white
+  pause
+  scpy
+}
+
+title= 14.3 Metal2 overlap of via2
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,51        ;make bitmap of metal2
+  map,61        ;make bitmap of via2
+  push,51       ;push metal2 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal2
+  push,61       ;push via2 into R, inverse metal2 into S
+  exprs         ;expand R,S to create via2 to metal2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,51,B,3    ;display metal2 in blue
+  dsp,61,w,2    ;display via2 in gray
+  dspr,W,1      ;display metal2 overlap of via2 errors in white
+  pause
+  scpy
+}
+
+title= 14.4 Via2 to via1 spacing (non-stacked)
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,50        ;make bitmap of via1
+  map,61        ;make bitmap of via2
+  push,61       ;push via2 into R
+  jrc           ;jump to next check area if R is clear
+  push,50       ;push via1 into R, via2 into R
+  orrs          ;get via1 and via2
+  map,26        ;get pad layer
+  push,26       ;push pad layer to R
+  xorrs         ;get via1 and via2 outside pad 
+  expr          ;expand R,S to create via1 to via2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,50,C,2    ;display via1 in cyan
+  dsp,61,w,2    ;display via2 in gray
+  dspr,W,1      ;display via2 to via1 spacing errors in white
+  pause
+  scpy
+}
+
+;# 15. Metal3 (scmos subm deep)
+
+;title= 15.0 Metal3 overlap
+;operators=
+{
+  map,62        ;make a bitmap of metal3
+  ovrlap,62     ;overlap metal3 into R
+  jrn           ;next check if none
+  dsp,62,w,3    ;display metal3 in gray
+  dspr,Y,1      ;display metal3 overlap in yellow
+  pause
+  scpy
+}
+
+title= 15.1 Metal3 width
+distance= 6 lam (3 metal process SCMOS)
+;distance= 5 lam (3 metal process SUBM)
+;distance= 3 lam (4+ metal process SCMOS SUBM DEEP)
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,62        ;make bitmap of metal3
+  push,62       ;push metal3 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal3
+  expr          ;expand R to create inverse metal3 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,62,B,3    ;display metal3 in blue
+  dspr,W,1      ;display metal3 width errors in white
+  pause
+  scpy
+}
+
+title= 15.2 Metal3 spacing
+distance= 4 lam (3 metal process SCMOS)
+;distance= 3 lam (3 metal process  SUBM)
+;distance= 3 lam (4+ metal process SCMOS SUBM)
+;distance= 4 lam (4+ metal process DEEP)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,62        ;make bitmap of metal3
+  push,62       ;push metal3 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create metal3 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,62,B,3    ;display metal3 in blue
+  dspr,W,1      ;display metal3 spacing errors in white
+  pause
+  scpy
+}
+
+title= 15.3 Metal3 overlap of via2
+distance= 2 lam (3 metal process SCMOS SUBM)
+;distance= 1 lam (4+ metal process)
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,61        ;make bitmap of via2
+  map,62        ;make bitmap of metal3
+  push,62       ;push metal3 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal3
+  push,61       ;push via2 into R, inverse metal3 into S
+  exprs         ;expand R,S to create metal3 to via2 merge bits
+  jrn           ;jump to next check area if no results
+  dsp,62,B,3    ;display metal3 in blue
+  dsp,61,w,2    ;display via2 in gray
+  dspr,W,1      ;display metal3 overlap of via2 errors in white
+  pause
+  scpy
+}
+
+;This test is normally not run because it produces many "false positives".
+;Disable by commenting out "operators=".
+
+;It first checks for metal5 >10 lam in the check area.
+;It then checks any metal3 spacing 5to<6 lam or 7to<8 for 3metal SCMOS,DEEP. 
+;You should visually check the actual layout for true errors.
+
+title= 15.4 Minimum spacing when either metal3 is wider than 10 lam 
+distance= 1 lam (SUBM DEEP SCMOS)
+;distance= .5 edu (CMOSEDU)
+resolution=.1
+;resolution=.05
+;operators=
+{
+  map,62        ;make a bitmap of metal3
+  push,62       ;push metal3 into R
+  jrc		;jump if nothing
+  notr          ;invert metal3
+  expr,1        ;expand by dist x 1
+  popr
+  expr,1        ;expand by dist x 2
+  popr
+  expr,1        ;expand by dist x 3
+  popr
+  expr,1        ;expand by dist x 4
+  popr
+  expr,1        ;expand by dist x 5
+  popr
+  expr,1        ;expand by dist x 6
+  popr
+  expr,1        ;expand by dist x 7
+  popr
+  expr,1        ;expand by dist x 8
+  popr
+  expr,1        ;expand by dist x 9
+  popr
+  expr,1        ;expand by dist x 10
+  popr
+  notr          
+  push,62       ;push metal3 into R expanded to S
+  andrs         ;any gaps in expanded
+  jrc           ;jump to next check area if R is clear
+
+  push,62       ;push metal3 into R expanded to S
+  expr          ;expand by 1-1bit
+  popr
+  expr,1        ;expand by 2
+  popr
+  expr,1        ;expand by 3
+  popr
+  expr,1        ;expand by 4
+  popr
+  expr,1        ;expand by 5
+  popr
+  expr,1        ;expand by 6 comment out below 3metal SUBM, 4+metal SCMOS,SUBM 
+  popr          
+  expr,1        ;expand by 7
+  popr         
+  expr,1        ;expand by 8
+
+  jrn           ;jump to next check area if no results
+  dsp,62,B,3    ;display metal3 in blue
+  dspr,W,1      ;display metal3 spacing errors in white
+  pause
+  scpy
+}
+
+;# 16. P-base (scmos)
+
+;16.1 Exact active contact size tested in 5.1
+
+title= 16.2 Select overlap of emitter contact
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,45        ;make a bitmap of nselect
+  map,58        ;make a bitmap of p-base
+  push,58       ;push p-base into R
+  jrc           ;jump to next check area if R is clear
+  push,45       ;push nselect into R, p-base into S
+  andrs         ;and R,S to get nselect in p-base
+  notr          ;not R to make inverse nselect
+  mapr          ;save inverse nselect in p-base
+  notr          ;not R to get nselect in p-base back again
+  push,25       ;push contact into R, nselect in p-base into S
+  andrs         ;and R,S to get nselect in p-base contact
+  push,0        ;push inverse nselect in p-base into R, contact into S
+  exprs         ;expand R,S to create contact to nselect merge bits
+  jrn           ;jump to next check area if no results
+  dsp,58,Y,2    ;display p-base in orange
+  dsp,45,B,3    ;display nselect in blue
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display select overlap of emitter contact errors in white
+  pause
+  scpy
+}
+
+title= 16.3 P-base overlap of nselect
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,45        ;make a bitmap of nselect
+  map,58        ;make a bitmap of p-base
+  push,45       ;push nselect into R
+  push,58       ;push p-base into R, nselect into S
+  jrc           ;jump to next check area if R is clear
+  andrs         ;and R,S to get nselect in p-base
+  push,58       ;push p-base into R, p-base nselect into S
+  notr          ;not R to make inverse p-base
+  exprs         ;expand R,S to create p-base to nselect merge bits
+  jrn           ;jump to next check area if no results
+  dsp,58,Y,2    ;display p-base in orange
+  dsp,45,B,2    ;display nselect in blue
+  dspr,W,1      ;display p-base overlap of nselect errors in white
+  pause
+  scpy
+}
+
+title= 16.4 Nselect to pselect in p-base spacing
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,44        ;make a bitmap of pselect
+  map,45        ;make a bitmap of nselect
+  map,58        ;make a bitmap of p-base
+  push,45       ;push nselect into R
+  push,58       ;push p-base into R, nselect into S
+  jrc           ;jump to next check area if R is clear
+  andrs         ;get nselect on p-base
+  mapr          ;save nselect on p-base
+  push,44       ;push pselect into R
+  push,58       ;push p-base into R, pselect into S
+  andrs         ;get pselect on p-base
+  push,0        ;push nselect on p-base into R, pselect on p-base into S
+  exprs         ;expand R,S to create nselect to pselect merge bits
+  jrn           ;jump to next check area if no results
+  dsp,58,Y,2    ;display p-base in orange
+  dsp,44,Y,2    ;display pselect in yellow
+  dsp,45,B,2    ;display nselect in blue
+  dspr,W,1      ;display nselect to pselect spacing errors in white
+  pause
+  scpy
+}
+
+title= 16.5 P-base overlap of pselect
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,44        ;make a bitmap of pselect
+  map,58        ;make a bitmap of p-base
+  push,58       ;push p-base into R
+  jrc           ;jump to next check area if R is clear
+  push,44       ;push pselect into R, p-base into S
+  andrs         ;and R,S to get pselect on p-base
+  push,58       ;push p-base into R, p-base select into S
+  notr          ;not R to make inverse p-base
+  exprs         ;expand R,S to create select to p-base merge bits
+  jrn           ;jump to next check area if no results
+  dsp,58,Y,2    ;display p-base in orange
+  dsp,44,Y,2    ;display pselect in yellow
+  dspr,W,1      ;display p-base overlap of pselect errors in white
+  pause
+  scpy
+}
+
+title= 16.6 Select overlap of base contact
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact
+  map,44        ;make a bitmap of pselect
+  map,58        ;make a bitmap of p-base
+  push,58       ;push p-base into R
+  jrc           ;jump to next check area if R is clear
+  push,44       ;push pselect into R, p-base into S
+  andrs         ;and R,S to get pselect in p-base
+  notr          ;not R to make inverse p-base
+  mapr          ;save inverse pselect in p-base
+  notr          ;not R to get pselect in p-base back again
+  push,25       ;push contact into R, pselect in p-base into S
+  andrs         ;and R,S to get contact in pselect in p-base
+  push,0        ;push inverse pselect in p-base into R, contact into S
+  exprs         ;expand R,S to create pselect to contact merge bits
+  jrn           ;jump to next check area if no results
+  dsp,58,Y,2    ;display p-base in orange
+  dsp,44,B,2    ;display nselect in blue
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display select overlap of base contact errors in white
+  pause
+  scpy
+}
+
+title= 16.7 N-well overlap of p-base
+distance= 6 lam
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,42        ;make a bitmap of n-well
+  map,58        ;make a bitmap of p-base
+  push,58       ;push p-base into R
+  jrc           ;jump to next check area if R is clear
+  push,42       ;push n-well into R, p-base into S
+  notr          ;not R to make inverse n-well
+  exprs         ;expand R,S to create inverse n-well to p-base merge bits
+  jrn           ;jump to next check area if no results
+  dsp,42,B,3    ;display n-well in blue
+  dsp,58,Y,2    ;display p-base in orange
+  dspr,W,1      ;display n-well overlap of p-base errors in white
+  pause
+  scpy
+}
+
+title= 16.8 P-base to active spacing
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,58        ;make a bitmap of p-base
+  push,58       ;push p-base into R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R, p-base into S
+  orrs          ;or R,S to get active outside p-base
+  push,58       ;push p-base into R, active outside p-base into S
+  notr          ;not R to make inverse p-base
+  andrs         ;and R,S to get active outside p-base
+  push,58       ;push p-base into R
+  exprs         ;expand R,S to create p-base to active merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dsp,58,Y,2    ;display p-base in orange
+  dspr,W,1      ;display p-base to active spacing errors in white
+  pause
+  scpy
+}
+
+;# 17. Cap-Well (scmos subm)
+
+title= 17.1 Capacitor well width
+distance= 10 lam (SCMOS)
+;distance= 12 lam (SUBM)
+;distance= 6 edu (CMOSEDU)
+operators=
+{
+  map,59        ;make a bitmap of capacitor well
+  push,59       ;push cap well into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse cap well
+  expr          ;expand R to create cap well merge bits
+  jrn           ;jump to next check area if no results
+  dsp,59,w,2    ;display cap well in grey
+  dspr,W,1      ;display cap well width errors in white
+  pause
+  scpy
+}
+
+title= 17.2 Capacitor well to other wells spacing
+distance= 9 lam (SCMOS)
+;distance= 18 lam (SUBM)
+;distance= 9 edu (CMOSEDU)
+operators=
+{
+  map,41        ;make a bitmap of p-well
+  map,42        ;make a bitmap of n-well
+  map,59        ;make a bitmap of cap well
+  push,41       ;push p-well into R
+  push,42       ;push n-well into R, p-well into S
+  orrs          ;or R,S to get combined p-well and n-wells
+  push,59       ;push cap well into R, combined wells into S
+  jrc           ;jump to next check area if R is clear
+  exprs         ;expand R,S to create cap well to wells merge bits
+  mapr          ;save results of cap well to  combined wells spacing
+  push,59       ;push cap well into R
+  expr          ;expand R to create cap well merge bits
+  push,0        ;push results of cap well to combined wells spacing
+  orrs          ;or R,S to combine results
+  jrn           ;jump to next check area if no results
+  dsp,41,Y,3    ;display p-well in yellow
+  dsp,42,B,3    ;display n-well in blue
+  dsp,59,w,3    ;display cap well in grey
+  dspr,W,1      ;display cap well to other wells spacing errors in white
+  pause
+  scpy
+}
+
+title= 17.3 Capicitor well to external active spacing
+distance= 5 lam (SCMOS)
+;distance= 6 lam (SUBM)
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,59        ;make a bitmap of cap well
+  push,59       ;push cap well into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make invers cap well
+  push,43       ;push active on R, inverse cap well into S
+  andrs         ;and R,S to get active outside cap well
+  push,59       ;push cap well into R, active outside cap well into S
+  exprs         ;expand R,S to create cap well to active merge bits
+  jrn           ;jump to next check area if no results
+  dsp,43,G,2    ;display active in green
+  dsp,59,w,3    ;display cap well in grey
+  dspr,W,1      ;display cap well to active spacing errors in white
+  pause
+  scpy
+}
+
+title= 17.4 Capacitor well overlap of active
+distance= 5 lam (SCMOS)
+;distance= 6 lam (SUBM)
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,43        ;make a bitmap of active
+  map,59        ;make a bitmap of cap well
+  push,59       ;push cap well into R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R, cap well into S
+  andrs         ;and R,S to get active inside cap well
+  push,59       ;push cap well into R, active inside cap well into S
+  notr          ;not R to make inverse cap well
+  exprs         ;expand R,S to create cap well to active merge bits
+  jrn           ;jump to next check area if no results
+  dsp,59,w,3    ;display cap well in grey
+  dsp,43,G,2    ;display active in green
+  dspr,W,1      ;display cap well overlap of active errors in white
+  pause
+  scpy
+}
+
+;# 18. Linear Cap (scmos subm)
+
+title= 18.1  Minimum linear capacitor width
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,59        ;make a bitmap of cap well
+  push,59       ;push cap well into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly
+  map,43        ;make a bitmap of active
+  push,46       ;push poly into R
+  andrs         ;get poly in cap well
+  jrc           ;jump to nect check area if R is clear
+  push,43       ;push active into R
+  andrs         ;get linear capacitor, result into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse linear capcitor 
+  expr          ;expand R to create linear capcitor merge bits 
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly in red 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display linear capacitor width errors in white
+  pause
+  scpy
+}
+
+title= 18.2 Minimum poly extension of active in linear capacitor
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,46        ;make a bitmap of poly
+  map,43        ;make a bitmap of active
+  push,46       ;push poly into R
+  push,43       ;push active into R, poly into S
+  andrs         ;get linear capacitor area into R
+  jrc           ;jump to next check area if R is clear
+  push,46       ;push poly into R, linear capcitor into S
+  xorrs         ;obtain overlap poly
+  map,59        ;make a bitmap of cap well
+  push,59       ;push cap well into R, 
+  andrs         ;get poly overlap in cap well
+  notr          ;not R to make inverse overlap poly 
+  expr          ;expand R to create merge bits of overlap poly
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly in red 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 18.3 Minimum active overlap of poly in linear capacitor
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,46        ;make a bitmap of poly
+  map,43        ;make a bitmap of active
+  push,46       ;push poly into R
+  push,43       ;push active into R, poly into S
+  andrs         ;get linear capacitor area into R
+  jrc           ;jump to next check area if R is clear
+  push,43       ;push active into R, linear capcitor into S
+  xorrs         ;obtain overlap active (and other active) 
+  map,59        ;make a bitmap of cap well
+  push,59       ;push cap well into R, active overlap into S
+  andrs         ;get active overlap in cap well
+  notr          ;not R to make inverse overlap active 
+  expr          ;expand R to create merge bits of overlap active 
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly in red 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;18.4 Poly contact to active in linear capacitor checked by 5.4
+
+title= 18.5 Min active contact to poly in linear capacitor
+distance= 6 lam
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,25        ;make a bitmap of contact 
+  map,43        ;make a bitmap of active
+  push,25       ;push contact into R
+  push,43       ;push active into R, poly into S
+  andrs         ;get contact over active
+  jrc           ;jump to next check area if R is clear
+  map,59        ;make a bitmap of cap well
+  push,59       ;push cap well into R
+  andrs         ;obtain obtain contact over active in Cap well
+  map,46        ;make a bitmap of poly 
+  push,46       ;push contact into R, contact into S 
+  exprs         ;expand R,S to create contact to linear cap merge bits
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly in red 
+  dsp,43,G,2    ;display active in green 
+  dsp,25,w,2    ;display contact in gray 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;# 20.  Silicide block (scmos subm deep)
+
+title= 20.1 Minimum silicide block width
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse SB
+  expr          ;expand R to create SB merge bits
+  jrn           ;jump to next check area if no results
+  dsp,29,y,2    ;display SB in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+
+title= 20.2 Minimum silicide block spacing
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create SB merge bits
+  jrn           ;jump to next check area if no results
+  dsp,29,y,2    ;display SB in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 20.3 Minimum spacing, SB to contact
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  map,25        ;make a bitmap of contact 
+  push,25       ;push contact into R, SB into S
+  exprs         ;expand R and S to create SB, contact merge bits  
+  jrn           ;jump to next check area if no results
+  dsp,29,Y,2    ;display SB in yellow 
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 20.4 Minimum spacing, SB to external active
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  map,43        ;make a bitmap of active 
+  push,43       ;push active into R, SB into S
+  exprs         ;checking space  
+  jrn           ;jump to next check area if no results
+  dsp,29,Y,2    ;display SB in yellow 
+  dsp,43,R,2    ;display poly in red 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;20.5 Minimum spacing, SB to external poly not tested (???)
+;20.6 Resistor is poly inside SB not tested
+
+title= 20.7 Minimum poly width in resistor 
+distance= 5 lam
+;distance= 2.5 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly into R, SB into S
+  andrs         ;get poly in SB
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse poly in resistor
+  expr          ;checking space  
+  jrn           ;jump to next check area if no results
+  dsp,29,Y,2    ;display SB in yellow 
+  dsp,46,R,2    ;display poly in red 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 20.8 Minimum spacing of poly resistors
+distance= 7 lam
+;distance= 3.5 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly into R, SB into S
+  andrs         ;get poly in SB
+  jrc           ;jump to next check area if R is clear
+  expr          ;checking space  
+  jrn           ;jump to next check area if no results
+  dsp,29,Y,2    ;display SB in yellow 
+  dsp,46,R,2    ;display poly in red 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 20.9 Minimum SB overlap of poly
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,29        ;make a bitmap of SB
+  push,29       ;push SB into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly into R, SB into S
+  andrs         ;get poly inside resistor
+  push,29       ;push SB into R, poly inside resistor into S
+  xorrs         ;get SB extension 
+  notr          ;not R to make inverse of extension  
+  expr          ;expand R to check SB overlap of poly
+  jrn           ;jump to next check area if no results
+  dsp,29,Y,2    ;display SB in yellow
+  dsp,46,R,2    ;display poly in red 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;20.10 not tested
+;20.11 not tested
+
+;# 21. Via3 (scmos subm deep)
+
+title= 21.1 Exact via3 size 
+distance= 2 lam (4 metal process SCMOS SUBM)
+;distance= 3 lam (5+ metal process DEEP)
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,26        ;make a bitmap of pads
+  size,30       ;use size macro, results in R, via3 in S
+  jrc           ;jump to next check area if no results
+  swaprs        ;swap R and S
+  mapr          ;save via2 map
+  swaprs        ;swap R and S back again
+  push,26       ;push pad map into R
+  notr          ;not R to make inverse pads
+  andrs         ;and R,S to remove size results in pads
+  jrn           ;jump to next check area if no results
+  dsp,0,B,2     ;display via3 in blue
+  dspr,W,1      ;display via3 size errors in white
+  pause
+  scpy
+}
+
+title= 21.2 Minimum Via3 spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,30        ;make a bitmap of via3 
+  push,30       ;push via3 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to via3 space 
+  jrn           ;jump to next check area if no results
+  dsp,30,C,2    ;display via3 in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 21.3 Minimum via3 overlap by metal3 
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,30        ;make a bitmap of via3 
+  push,30       ;push via3 into R
+  jrc           ;jump to next check area if R is clear
+  map,62        ;make a bitmap of matal3 
+  push,62       ;push metal3 into R
+  xorrs         ;get overlap   
+  notr          ;not R to make inverse overlap 
+  expr          ;expand R to check overlap by M3 
+  jrn           ;jump to next check area if no results
+  dsp,30,C,2    ;display via3 in cyan 
+  dsp,62,B,3    ;display metal3 in blue 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;# 22. Metal4 (scmos subm deep)
+
+;title= 22.0 Metal4 overlap
+;operators=
+{
+  map,31        ;make a bitmap of metal4
+  ovrlap,31     ;overlap metal4 into R
+  jrn           ;next check if none
+  dsp,31,w,3    ;display metal4 in gray
+  dspr,B,1      ;display metal4 overlap in blue
+  pause
+  scpy
+}
+
+title= 22.1 Minimum metal4 width
+distance= 6 lam (4 metal process SCMOS SUBM)
+;distance= 3 lam (5+ metal process SUBM DEEP)
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,31        ;make a bitmap of metal4 
+  push,31       ;push metal4 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal4
+  expr          ;expand R to check metal4 width 
+  jrn           ;jump to next check area if no results
+  dsp,31,B,3    ;display metal4 in blue 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 22.2 Minimum metal4 space
+distance= 6 lam (4 metal process SCMOS SUBM)
+;distance= 3 lam (5+ metal process SUBM)
+;distance= 4 lam (5+ metal process DEEP)
+;distance= 3 edu (CMOSEDU)
+operators=
+{
+  map,31        ;make a bitmap of metal4 
+  push,31       ;push metal4 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to check metal4 space 
+  jrn           ;jump to next check area if no results
+  dsp,31,B,3    ;display metal4 in blue
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 22.3 Metal4 overlap via3
+distance= 2 lam (4 metal process SCMOS SUBM)
+;distance= 1 lam (5+ metal process SUBM DEEP)
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,31        ;make a bitmap of matel4 
+  push,31       ;push metal4 into R
+  jrc           ;jump to next check area if R is clear
+  map,30        ;make a bitmap of Via3
+  push,30       ;push via3 into R, metal4 into S
+  xorrs         ;get overlap 
+  notr          ;not R to make inverse overlap
+  expr          ;expand R to check metal4 overlap 
+  jrn           ;jump to next check area if no results
+  dsp,31,B,3    ;display metal4 in blue
+  dsp,30,C,2    ;display via3 in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;This test is normally not run because it produces many "false positives".
+;Disable by commenting out "operators=".
+
+;It first checks for metal5 >10 lam in the check area.
+;It then checks any metal4 spacing 5to<6 lam or 7to<8 for 3metal SCMOS,DEEP.
+;You should visually check the actual layout for true errors.
+
+title= 22.4 Minimum spacing when either metal4 is wider than 10 lam 
+distance= 1 lam (SUBM DEEP SCMOS)
+;distance= .5 edu (CMOSEDU)
+resolution=.1
+;resolution=.05
+;operators=
+{
+  map,31        ;make a bitmap of metal4
+  push,31       ;push metal4 into R
+  jrc		;jump if nothing
+  notr          ;invert metal4
+  expr,1        ;expand by dist x 1
+  popr
+  expr,1        ;expand by dist x 2
+  popr
+  expr,1        ;expand by dist x 3
+  popr
+  expr,1        ;expand by dist x 4
+  popr
+  expr,1        ;expand by dist x 5
+  popr
+  expr,1        ;expand by dist x 6
+  popr
+  expr,1        ;expand by dist x 7
+  popr
+  expr,1        ;expand by dist x 8
+  popr
+  expr,1        ;expand by dist x 9
+  popr
+  expr,1        ;expand by dist x 10
+  popr
+  notr          
+  push,31       ;push metal4 into R expanded to S
+  andrs         ;any gaps in expanded
+  jrc           ;jump to next check area if R is clear
+
+  push,31       ;push metal4 into R expanded to S
+  expr          ;expand by 1-1bit
+  popr
+  expr,1        ;expand by 2
+  popr
+  expr,1        ;expand by 3
+  popr
+  expr,1        ;expand by 4
+  popr
+  expr,1        ;expand by 5
+  popr
+  expr,1        ;expand by 6 comment out below for 5+metal SUBM
+  popr
+  expr,1        ;expand by 7
+  popr
+  expr,1        ;expand by 8 comment out below for 5+metal DEEP
+  popr
+  expr,1        ;expand by 9
+  popr
+  expr,1        ;expand by 10
+  popr
+  expr,1        ;expand by 11
+  popr
+  expr,1        ;expand by 12
+
+  jrn           ;jump to next check area if no results
+  dsp,31,B,3    ;display metal4 in blue
+  dspr,W,1      ;display metal4 spacing errors in white
+  pause
+  scpy
+}
+
+;# 23. SCNPC with POLY_CAP (scmos)
+
+title= 23.1  Minimum poly cap1 width
+distance= 8 lam
+;distance= 4 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse poly_cap1
+  expr          ;check width 
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.2  Minimum poly cap1 spacing
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.3  Minimum spacing, poly cap1 to active
+distance= 8 lam
+;distance= 4 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,43        ;make a bitmap of active
+  push,43       ;push active to R, poly cap1 to S
+  exprs         ;check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.4  Minimum overlap, poly cap1 over poly
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly to R, poly cap1 to S
+  andrs         ;get poly over poly cap1
+  push,28       ;push poly cap1 to R
+  xorrs         ;get overlap
+  notr          ;make inverse overlap 
+  expr          ;checking overlap
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dsp,46,R,2    ;display poly in red 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.5  Minimum overlap, poly cap1 over contact
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,25        ;make a bitmap of contact 
+  push,25       ;push contact to R, poly cap1 to S
+  andrs         ;get contact over poly cap1
+  push,28       ;push poly cap1 to R
+  xorrs         ;get overlap
+  notr          ;make inverse overlap 
+  expr          ;checking overlap
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.6  Minimum overlap, poly over contact
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly to R, poly cap1 to S
+  andrs         ;get poly over poly cap1
+  map,25        ;make a bitmap of contact
+  push,25       ;push contact to R
+  andrs         ;get contact over poly and poly cap1 
+  push,46       ;push poly into R
+  xorrs         ;get overlap
+  notr          ;make inverse overlap 
+  expr          ;checking overlap
+  jrn           ;jump to next check area if no results
+  dsp,46,R,2    ;display poly in red 
+  dsp,25,w,2    ;display contact in gray 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.7  Minimum spacing, poly to contact-to-poly_cap1
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly to R, poly cap1 to S
+  xorrs         ;get poly cap1 without poly over it
+  map,25        ;make a bitmap of contact
+  push,25       ;push contact into R
+  andrs         ;get contact over poly cap1
+  mapr          ;save contact over poly cap1
+  push,28       ;push poly cap1 into R
+  push,46       ;push poly into R
+  andrs         ;get poly over poly cap1
+  pushr         ;push contact over poly into R, poly into S
+  exprs         ;checking space
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dsp,46,R,2    ;display poly in red 
+  dsp,25,w,2    ;display contact in gray
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;title= 23.8  Minimum spacing, unrelated metal1 to poly_cap
+;not tested , unrelated ? (???)
+;distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+;operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,49        ;make a bitmap of metal1 
+  push,49       ;push metal1 to R, poly cap1 to S
+  exprs         ;check space
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dsp,49,B,3    ;display metal1 in blue 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 23.9  Minimum spacing, metal2 to poly_cap
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,28        ;make a bitmap of poly cap1 
+  push,28       ;push poly cap1 into R
+  jrc           ;jump to next check area if R is clear
+  map,51        ;make a bitmap of metal2 
+  push,51       ;push metal2 to R, poly cap1 to S
+  exprs         ;check space
+  jrn           ;jump to next check area if no results
+  dsp,28,Y,2    ;display poly cap1 in yellow 
+  dsp,51,B,3    ;display metal2 in blue 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;# 24. Thick Active (scmos subm deep)
+
+title= 24.1  Minimum thick active width
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,60        ;make a bitmap of thick active 
+  push,60       ;push thick active into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;make inverse thick active
+  expr          ;check width 
+  jrn           ;jump to next check area if no results
+  dsp,60,c,2    ;display thick active in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 24.2  Minimum spacing (thick active)
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,60        ;make a bitmap of thick active 
+  push,60       ;push thick active into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;check space 
+  jrn           ;jump to next check area if no results
+  dsp,60,C,2    ;display thick active in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 24.3  Minimum active overlap
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,60        ;make a bitmap of thick active 
+  push,60       ;push thick active into R
+  jrc           ;jump to next check area if R is clear
+  map,43        ;make a bitmap of active
+  push,43       ;push thick active into R, active into S
+  andrs         ;get active inside thick active
+  push,60       ;push thick active into R
+  xorrs         ;get overlap
+  notr          ;make inverse overlap
+  expr          ;check overlap 
+  jrn           ;jump to next check area if no results
+  dsp,60,C,2    ;display thick active in cyan 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 24.4  Minimum space, thick active to external active
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,60        ;make a bitmap of thick active 
+  push,60       ;push thick active into R
+  jrc           ;jump to next check area if R is clear
+  map,43        ;make a bitmap of thick active
+  push,43       ;push active into R, thick active into S
+  andrs         ;get active inside thick active
+  push,43       ;push active into R
+  xorrs         ;get active outside thick active
+  push,60       ;push thick active into R 
+  exprs         ;check space (thick active to active)
+  jrn           ;jump to next check area if no results
+  dsp,60,C,2    ;display thick active in cyan 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 24.5  Minimum poly width over thick active
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,60        ;make a bitmap of thick active 
+  push,60       ;push thick active into R
+  jrc           ;jump to next check area if R is clear
+  map,46        ;make a bitmap of poly 
+  push,46       ;push poly into R, thick active into S
+  andrs         ;get poly over thick active
+  notr          ;make inverse poly 
+  expr          ;check poly gate width  
+  jrn           ;jump to next check area if no results
+  dsp,60,C,2    ;display thick active in cyan 
+  dsp,46,R,2    ;display poly in red 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;24.6 Every active region is either entirely inside thick active
+;or entirely outside thick active not tested
+
+
+;# 25. Via4 (subm deep)
+
+title= 25.1 Exact via4 size
+distance= 2 lam (SUBM)
+;distance= 3 lam (DEEP)
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,26        ;make a bitmap of pads
+  size,32       ;use size macro, results in R, via4 in S
+  jrc           ;jump to next check area if no results
+  swaprs        ;swap R and S
+  mapr          ;save via2 map
+  swaprs        ;swap R and S back again
+  push,26       ;push pad map into R
+  notr          ;not R to make inverse pads
+  andrs         ;and R,S to remove size results in pads
+  jrn           ;jump to next check area if no results
+  dsp,0,w,2     ;display via4 in gray 
+  dspr,W,1      ;display via4 size errors in white
+  pause
+  scpy
+}
+
+title= 25.2 Minimum via4 spacing
+distance= 3 lam
+;distance= 1.5 edu (CMOSEDU)
+operators=
+{
+  map,32        ;make a bitmap of VIA4 
+  push,32       ;push via4 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to via4 space 
+  jrn           ;jump to next check area if no results
+  dsp,32,w,2    ;display via4 in grey 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 25.3 Minimum via4 overlap by metal4
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,32        ;make a bitmap of via4 
+  push,32       ;push via4 into R
+  jrc           ;jump to next check area if R is clear
+  map,31        ;make a bitmap of metal4
+  push,31       ;push metal4 into R, via4 into S
+  xorrs         ;get overlap into R  
+  notr          ;not R to make inverse overlap 
+  expr          ;expand R to check overlap by M4 
+  jrn           ;jump to next check area if no results
+  dsp,31,B,3    ;display metal4 in blue 
+  dsp,32,w,2    ;display via4 in grey 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;# 26. Metal5 (subm deep) 
+
+;title= 26.0 Metal5 overlap
+;operators=
+{
+  map,33        ;make a bitmap of metal5
+  ovrlap,33     ;overlap metal5 into R
+  jrn           ;next check if none
+  dsp,33,w,3    ;display metal5 in gray
+  dspr,M,1      ;display metal5 overlap in magenta
+  pause
+  scpy
+}
+
+title= 26.1 Minimum metal5 width
+distance= 4 lam (5 metal process)
+;distance= 3 lam (6+ metal process)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,33        ;make a bitmap of matal5 
+  push,33       ;push metal5 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal5
+  expr          ;expand R to check metal5 width 
+  jrn           ;jump to next check area if no results
+  dsp,33,B,3    ;display metal5 in blue 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 26.2 Minimum metal5 space
+distance= 4 lam (5 metal process SUBM DEEP)
+;distance= 3 lam (6+ metal process SUBM)
+;distance= 4 lam (6+ metal process DEEP)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,33        ;make a bitmap of matel5 
+  push,33       ;push metal5 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to check metal5 space 
+  jrn           ;jump to next check area if no results
+  dsp,33,B,3    ;display metal5 in blue 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 26.3 Minimum metal5 overlap via4
+distance= 1 lam (5 metal process SUBM)
+;distance= 2 lam (5 metal process DEEP)
+;distance= 1 lam (6+ metal process SUBM DEEP)
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,33        ;make a bitmap of matal5 
+  push,33       ;push metal5 into R
+  jrc           ;jump to next check area if R is clear
+  map,32        ;make a bitmap of Via4
+  push,32       ;push via4 into R, metal5 into S
+  xorrs         ;get overlap 
+  notr          ;not R to make inverse overlap
+  expr          ;expand R to check overlap of metal5 
+  jrn           ;jump to next check area if no results
+  dsp,33,B,3    ;display metal5 in blue 
+  dsp,32,w,2    ;display via4 in grey 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;Not used by SCMOS
+
+;This test is normally not run because it produces many "false positives".
+;Disable by commenting out "operators=".
+
+;It first checks for metal5 >10 lam in the check area.
+;It then checks for any metal5 spacing 5to<6 lam 6+metal SUBM or 7to<8 for DEEP. 
+;You should visually check the actual layout for true errors.
+
+title= 26.4 Minimum spacing when either metal5 is wider than 10 lam 
+distance= 1 lam (SUBM DEEP)
+;distance= .5 edu (CMOSEDU)
+resolution=.1
+;resolution=.05
+;operators=
+{
+  map,33        ;make a bitmap of metal5
+  push,33       ;push metal5 into R
+  jrc		;jump if nothing
+  notr          ;invert metal5
+  expr,1        ;expand by dist x 1
+  popr
+  expr,1        ;expand by dist x 2
+  popr
+  expr,1        ;expand by dist x 3
+  popr
+  expr,1        ;expand by dist x 4
+  popr
+  expr,1        ;expand by dist x 5
+  popr
+  expr,1        ;expand by dist x 6
+  popr
+  expr,1        ;expand by dist x 7
+  popr
+  expr,1        ;expand by dist x 8
+  popr
+  expr,1        ;expand by dist x 9
+  popr
+  expr,1        ;expand by dist x 10
+  popr
+  notr          
+  push,33       ;push metal5 into R expanded to S
+  andrs         ;any gaps in expanded
+  jrc           ;jump to next check area if R is clear
+
+  push,33       ;push metal5 into R expanded to S
+  expr          ;expand by 1-1bit
+  popr
+  expr,1        ;expand by 2
+  popr
+  expr,1        ;expand by 3
+  popr
+  expr,1        ;expand by 4
+  popr
+  expr,1        ;expand by 5
+  popr
+  expr,1        ;expand by 6 comment out below for 6+metal SUBM
+  popr
+  expr,1        ;expand by 7
+  popr
+  expr,1        ;expand by 8
+ 
+  jrn           ;jump to next check area if no results
+  dsp,33,B,3    ;display metal5 in blue
+  dspr,W,1      ;display metal5 spacing errors in white
+  pause
+  scpy
+}
+
+;# 27. High Res (scmos subm)
+
+title= 27.1 High Res width
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse Hi Res 
+  expr          ;expand R to check width of High Res 
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 27.2 High Res spacing
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 27.3  Minimum spacing, HR to contact 
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  map,25        ;make a bitmap of contact
+  push,25       ;push contact into R, HR into S
+  exprs         ;expand R,s to check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dsp,25,w,2    ;display contact in gray 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 27.4  Minimum spacing, HR to external active
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  map,43        ;make a bitmap of active 
+  push,43       ;push  active into R, HR into S
+  exprs         ;expand R,s to check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dsp,43,G,2    ;display active in green 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 27.5  Minimum spacing, HR to external poly2 
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if no HR
+  map,56        ;make a bitmap of poly2 
+  jrc           ;jump to next check area if no Poly2
+  push,56       ;push  poly2 into R, HR into S
+  orrs         	;combine poly2 and HR
+  expr         	;expand R to check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dsp,56,y,2    ;display poly2 in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+
+;27.6  resistor is poly2 inside HR not tested (N/A)
+
+title= 27.7  Minimum poly2 width in resistor
+distance= 5 lam
+;distance= 2.5 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  map,56        ;make a bitmap of poly2 
+  push,56       ;push  poly2 into R, HR into S
+  andrs         ;get poly2 in resistor
+  notr          ;not r to make inverse poly2 in resistor
+  expr          ;check poly2 width in resistor
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dsp,56,y,2    ;display poly2 in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 27.8  Minimum spacing of poly2 resistors
+distance= 7 lam
+;distance= 3.5 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  map,56        ;make a bitmap of poly2 
+  push,56       ;push  poly2 into R, HR into S
+  andrs         ;get poly2 inside HR 
+  expr          ;check overlap width in resistor
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dsp,56,y,2    ;display poly2 in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 27.9  Minimum HR overlap of poly2 
+distance= 2 lam
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,34        ;make a bitmap of High Res 
+  push,34       ;push High Res into R
+  jrc           ;jump to next check area if R is clear
+  map,56        ;make a bitmap of poly2 
+  push,56       ;push  poly2 into R, HR into S
+  andrs         ;get poly2 in resistor
+  push,34       ;push HR into R
+  xorrs         ;get overlap
+  notr          ;not r to make inverse overlap
+  expr          ;check overlap width in resistor
+  jrn           ;jump to next check area if no results
+  dsp,34,C,2    ;display High Res in cyan 
+  dsp,56,Y,2    ;display poly2 in yellow 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;# 28. CAP_TOP_METAL (subm deep)
+
+title= 28.1  Minimum width, capacitor
+distance= 50 lam (SUBM)
+;distance= 50 lam (DEEP)
+;distance= 25 edu (CMOSEDU)
+operators=
+{
+  map,35        ;make a bitmap of cap top metal 
+  push,35       ;push Cap top metal into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not r to make inverse cap top metal 
+  expr          ;check  width 
+  jrn           ;jump to next check area if no results
+  dsp,35,C,2    ;display CTM in cyan
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 28.2  Minimum spacing (2 Capacitors) 
+distance= 14 lam
+;distance= 7 edu (CMOSEDU)
+operators=
+{
+  map,35        ;make a bitmap of cap top metal 
+  push,35       ;push Cap top metal into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;check spacing 
+  jrn           ;jump to next check area if no results
+  dsp,35,C,2    ;display CTM in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;28.3-28.15 not tested, they depend on the process. 
+;check visually on layout
+
+;# 29. Via5 (subm deep)
+
+title= 29.1 Exact via5 size
+distance= 3 lam (SUBM)
+;distance= 4 lam (DEEP)
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,26        ;make a bitmap of pads
+  size,36       ;use size macro, results in R, via5 in S
+  jrc           ;jump to next check area if no results
+  swaprs        ;swap R and S
+  mapr          ;save via map
+  swaprs        ;swap R and S back again
+  push,26       ;push pad map into R
+  notr          ;not R to make inverse pads
+  andrs         ;and R,S to remove size results in pads
+  jrn           ;jump to next check area if no results
+  dsp,0,w,2     ;display via5 in gray
+  dspr,W,1      ;display via5 size errors in white
+  pause
+  scpy
+}
+
+title= 29.2 Minimum via5 spacing
+distance= 4 lam
+;distance= 2 edu (CMOSEDU)
+operators=
+{
+  map,36        ;make a bitmap of Via5 
+  push,36       ;push via5 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to via5 space 
+  jrn           ;jump to next check area if no results
+  dsp,36,C,2    ;display via5 in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 29.3 Minimum via5 overlap by metal5
+distance= 1 lam
+;distance= .5 edu (CMOSEDU)
+operators=
+{
+  map,36        ;make a bitmap of via5 
+  push,36       ;push via5 into R
+  jrc           ;jump to next check area if R is clear
+  map,33        ;make a bitmap of metal5
+  push,33       ;push metal5 into R, via5 into S
+  xorrs         ;get overlap into R  
+  notr          ;not R to make inverse overlap 
+  expr          ;expand R to check overlap by metal5 
+  jrn           ;jump to next check area if no results
+  dsp,33,B,3    ;display metal5 in blue
+  dsp,36,C,2    ;display via5 in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+;# 30. Metal6 (subm deep)
+ 
+;title= 30.0 Metal6 overlap
+;operators=
+{
+  map,37        ;make a bitmap of metal6
+  ovrlap,37     ;overlap metal6 into R
+  jrn           ;next check if none
+  dsp,37,w,3    ;display metal6 in gray
+  dspr,C,1      ;display metal6 overlap in cyan
+  pause
+  scpy
+}
+
+title= 30.1 Minimum metal6 width
+distance= 5 lam
+;distance= 2.5 edu (CMOSEDU)
+operators=
+{
+  map,37        ;make a bitmap of metal6 
+  push,37       ;push metal6 into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse metal6
+  expr          ;expand R to check metal6 width 
+  jrn           ;jump to next check area if no results
+  dsp,37,B,3    ;display metal6 in blue
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+title= 30.2 Minimum metal6 space
+distance= 5 lam
+;distance= 2.5 edu (CMOSEDU)
+operators=
+{
+  map,37        ;make a bitmap of matal6 
+  push,37       ;push metal6 into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to check metal6 space 
+  jrn           ;jump to next check area if no results
+  dsp,37,B,2    ;display metal6 in gray 
+  dspr,W,1      ;display errors in blue
+  pause
+  scpy
+}
+
+title= 30.3 Minimum metal6 overlap via5
+distance= 1 lam (SUBM)
+;distance= 2 lam (DEEP)
+;distance= 1 edu (CMOSEDU)
+operators=
+{
+  map,37        ;make a bitmap of metal6 
+  push,37       ;push metal6 into R
+  jrc           ;jump to next check area if R is clear
+  map,36        ;make a bitmap of Via5
+  push,36       ;push via4 into R, metal6 into S
+  xorrs         ;get overlap 
+  notr          ;not R to make inverse overlap
+  expr          ;expand R to check overlap of metal6 
+  jrn           ;jump to next check area if no results
+  dsp,37,B,2    ;display metal6 in blue 
+  dsp,36,C,2    ;display via5 in cyan 
+  dspr,W,1      ;display errors in white
+  pause
+  scpy
+}
+
+:Not used by SCMOS
+
+;This test is normally not run because it produces many "false positives".
+;Disable by commenting out "operators=".
+
+;It first checks for metal6 >10 lam in the check area.
+;It will then check any metal6 spacing 9to<10 lam
+;You should visually check the actual layout for true errors.
+
+title= 30.4 Minimum spacing when either metal6 is wider than 10 lam 
+distance= 1 lam (SUBM DEEP)
+;distance= .5 edu (CMOSEDU)
+resolution=.1
+;resolution=.05
+;operators=
+{
+  map,37        ;make a bitmap of metal6
+  push,37       ;push metal6 into R
+  jrc		;jump if nothing
+  notr          ;invert metal6
+  expr,1        ;expand by dist x 1
+  popr
+  expr,1        ;expand by dist x 2
+  popr
+  expr,1        ;expand by dist x 3
+  popr
+  expr,1        ;expand by dist x 4
+  popr
+  expr,1        ;expand by dist x 5
+  popr
+  expr,1        ;expand by dist x 6
+  popr
+  expr,1        ;expand by dist x 7
+  popr
+  expr,1        ;expand by dist x 8
+  popr
+  expr,1        ;expand by dist x 9
+  popr
+  expr,1        ;expand by dist x 10
+  popr
+  notr          
+  push,37       ;push metal6 into R expanded to S
+  andrs         ;any gaps in expanded
+  jrc           ;jump to next check area if R is clear
+
+  push,37       ;push metal6 into R expanded to S
+  expr          ;expand by 1-1bit
+  popr
+  expr,1        ;expand by 2
+  popr
+  expr,1        ;expand by 3
+  popr
+  expr,1        ;expand by 4
+  popr
+  expr,1        ;expand by 5
+  popr
+  expr,1        ;expand by 6
+  popr
+  expr,1        ;expand by 7
+  popr
+  expr,1        ;expand by 8
+  popr
+  expr,1        ;expand by 9
+  popr
+  expr,1        ;expand by 10
+ 
+  jrn           ;jump to next check area if no results
+  dsp,37,B,3    ;display metal6 in blue
+  dspr,W,1      ;display metal6 spacing errors in white
+  pause
+  scpy
+}
+;;;; put additional rules to check validity of MOSFET here
+
+
+;============== end of the check file =============

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<TLC>
+;SCNA and SCNE process layers
+
+;Derived from MOSIS layer map
+;Always consult www.mosis.org for changes and additional information
+
+;Layer numbers are GDSII layer numbers
+;Comment indicates CIF layer names
+
+;This file will add the necessary layers to the layout
+;Install as TLD file with TLCin command
+
+<L>
+30
+ARRW 1	;Lasi custom layers
+OTLN 2	;for diagrams, schematic
+SCHM 3	;and circuit analysis
+NTXT 4
+CTXT 5
+DTXT 6
+PTXT 7
+POL1A 8
+NACT 9
+PACT 10
+MET1A 11
+MET2A 12
+CHAN 13
+CONTA 15
+NWELL 42  	;CWN   
+ACTIVE 43  	;CAA
+PBASE 58  	;CBA  	Optional, SCNA only  
+POLY 46  	;CPG
+N+SELECT 45  	;CSN
+P+SELECT 44  	;CSP 
+POLY2 56  	;CP2 CEL optional  
+CONTACT 25  	;CCC CCG     
+POLYCONT 47  	;CCP 	Can be replaced by CONTACT  
+ACTVCONT 48  	;CCA 	Can be replaced by CONTACT  
+PLY2CONT 55  	;CCE 	Can be replaced by CONTACT.  
+METAL1 49  	;CM1 CMF
+VIA 50  	;CV1 CVA
+METAL2 51  	;CM2 CMS
+GLASS 52  	;COG
+PADS 26  	;XP     
+</L>
+</TLC>
+
+

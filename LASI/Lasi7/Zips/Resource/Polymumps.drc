@@ -1,0 +1,749 @@
+;Generic Lasi Design Rule File for PolyMUMPS Version 1.0.10
+;Derived from PolyMUMPs Design Handbook Rev 11.0
+;April 2007 d.e.boyce
+:For use with Lasi 7.0.42 or later
+
+;Comments start with ";" or "*"
+
+;To disable a parameter or operator comment it out.   
+;To completely skip a particular test comment out "operators="
+
+;Disclaimer:
+
+;These test sequences are intended for educational purposes. No claim is
+;made or implied that they will detect all possible design rule errors.
+;The design rule checks in this DRC file should find a high percentage of
+;rule violations. Some rules are not checked because they are rare or are
+;difficult to test.
+
+
+title= Poly0 width >=2um
+distance= 2 um
+resolution= .1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  push,13       ;push into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dspr,W,1      ;display width errors in white
+  pause
+  scpy
+}
+
+title= Poly0 spacing >=2um
+distance= 2 um
+resolution= .1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  push,13       ;push into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dspr,W,1      ;display width errors in white
+  pause
+  scpy
+}
+
+title= Poly1 width >=2um
+distance= 2 um
+resolution= .1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  push,45       ;push into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dspr,W,1      ;display width errors in white
+  pause
+  scpy
+}
+
+title= Poly1 spacing >=2um
+distance= 2 um
+resolution= .1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  push,45       ;push into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Poly2 width >=2um
+distance= 2 um
+resolution= .1 um
+operators=
+{
+  map,49        ;make a bitmap of poly2
+  push,49       ;push into R
+  jrc           ;jump to next check area if R is clear
+  notr          ;not R to make inverse
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display width errors in white
+  pause
+  scpy
+}
+
+title= Poly2 spacing >=2um
+distance= 2 um
+resolution= .1 um
+operators=
+{
+  map,49        ;make a bitmap of poly2
+  push,49       ;push into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;expand R to create merge bits
+  jrn           ;jump to next check area if no results
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.5 Poly0-Anchor1 spacing (A) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  map,43        ;make a bitmap of anchor1
+  push,43       ;push anchor1 into R
+  jrc           ;jump to next check area if no anchor1
+  push,13       ;push poly0 into R anchor1 into S
+  notr          ;invert poly0
+  andrs         ;anchor1 not in poly0
+  push,13       ;poly0 in R
+  explrs        ;expand poly0 to anchor1          
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,43,C,2    ;display anchor1 in cyan
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.5 Poly0-Anchor1 enclose (B) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  map,43        ;make a bitmap of anchor1
+  push,13       ;poly0 into R
+  jrc		;no poly0
+  push,43	;anchor1 to R, poly0 to S
+  andrs		;anchor1 in poly0
+  push,13	;poly0 to R, anchor1 in poly0 to S
+  notr          ;reverse poly0
+  explrs	;expand anchor1 in poly0 to reverse poly0   
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,43,C,2    ;display anchor1 in cyan
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.6 Poly0-Poly1 enclose (C) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  map,45        ;make a bitmap of poly1
+  push,13       ;poly0 into R
+  jrc		;no poly0
+  push,45	;poly1 to R, poly0 to S
+  andrs		;poly1 in poly0
+  push,13	;poly0 to R, poly1 in poly0 to S
+  notr          ;reverse poly0
+  explrs	;expand poly1 in poly0 to reverse poly0   
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,45,O,3    ;display poly1 in orange
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+ 
+title= Fig 2.6 Poly1-Anchor1 enclose (G) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,43        ;make a bitmap of anchor1
+  push,45       ;poly1 into R
+  jrc		;no poly1
+  push,43	;push anchor1
+  andrs		;anchor1 in poly1
+  push,45	;poly1 to R, anchor1 in poly1 to S
+  notr          ;reverse poly1
+  explrs	;expand anchor1 in poly1 to reverse poly1   
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,43,C,2    ;display anchor1 in cyan
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.7 Poly0-Poly2 enclose (D) >=5um
+distance= 5 um
+resolution= 0.1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  map,49        ;make a bitmap of poly2
+  push,13       ;poly0 into R
+  jrc		;no poly0
+  push,49	;push poly2
+  andrs		;poly2 in poly0
+  push,13	;poly2 to R, poly2 in poly0 to S
+  notr          ;reverse poly0
+  explrs	;expand poly2 in poly0 to reverse poly0      
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.7 Poly2-Anchor2 enclose on poly0 (J) >=5um
+distance= 5 um
+resolution= 0.1 um
+operators=
+{
+  map,13	;make a bitmap of poly0
+  map,49        ;make a bitmap of poly2
+  map,52        ;make a bitmap of anchor2
+  push,13	;poly0 into R
+  push,49       ;poly2 into R, poly0 into S
+  andrs		;poly2 in poly0
+  jrc           ;no poly2 in poly0
+  push,52	;anchor2 into R, poly2 in poly0 into S
+  andrs		;anchor2 in poly2
+  push,49	;poly2 to R, anchor2 in poly2 to S
+  notr          ;reverse poly2
+  explrs	;expand anchor2 in poly2 to reverse poly2      
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,49,G,4    ;display poly2 in green
+  dsp,52,M,2    ;display anchor2 in magenta
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.8 Poly0-Anchor2 enclose (E) >=5um
+distance= 5 um
+resolution= 0.1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  map,52        ;make a bitmap of anchor2
+  push,13       ;poly0 into R
+  jrc		;no poly0
+  push,52	;push anchor2
+  andrs		;anchor2 in poly0
+  push,13	;poly0 to R, anchor2 in poly0 to S
+  notr          ;reverse poly0
+  explrs	;expand anchor2 in poly0 to reverse poly0     
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,52,M,2    ;display anchor2 in magenta
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+
+}
+
+title= Fig 2.8 Poly0-Anchor2 spacing (F) >=5um
+distance= 5 um
+resolution= 0.1 um
+operators=
+{
+  map,13        ;make a bitmap of poly0
+  map,52        ;make a bitmap of anchor2
+  push,52       ;push anchor2 into R
+  jrc           ;jump to next check area if no anchor2
+  push,13       ;push poly0 into R anchor2 into S
+  notr          ;invert poly0
+  andrs         ;anchor2 not in poly0
+  push,13       ;poly0 in R
+  explrs        ;expand poly0 to anchor2          
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,52,M,2    ;display anchor2 in magenta
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.9 Poly1-Poly1_Poly2_VIA enclose (H) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,47        ;make a bitmap of p1p2v
+  push,45       ;poly1 into R
+  jrc		;no poly1
+  push,47	;push p1p2v
+  andrs		;p1p2v in poly1
+  push,45	;poly1 to R, p1p2v in poly1 to S
+  notr          ;reverse poly1
+  explrs	;expand p1p2v in poly1 to reverse poly1     
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,47,w,2    ;display p1p2v in gray
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.9 Poly2-Poly1_Poly2_VIA enclose (L) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,49        ;make a bitmap of poly2
+  map,47        ;make a bitmap of p1p2v
+  push,49       ;poly2 into R
+  jrc		;no poly2
+  push,47	;push p1p2v
+  andrs		;p1p2v in poly2
+  push,49	;poly2 to R, p1p2v in poly2 to S
+  notr          ;reverse poly2
+  explrs	;expand p1p2v in poly02 to reverse poly2     
+  jrn           ;jump to next check area if no results
+  dsp,49,G,4    ;display poly2 in green
+  dsp,47,w,2    ;display p1p2v in gray
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.10 Poly2-Anchor2 enclose off poly0 (J) >=5um
+distance= 5 um
+resolution= 0.1 um
+operators=
+{
+  map,13	;make a bitmap of poly0
+  map,49        ;make a bitmap of poly2
+  map,52        ;make a bitmap of anchor2
+  push,49	;poly2 into R
+  push,13       ;poly0 into R, poly2 into S
+  notr          ;reverse poly0
+  andrs		;poly2 not in poly0
+  jrc           ;no poly2 on poly0
+  push,52	;anchor2 into R, poly2 not in poly0 into S
+  andrs		;anchor2 in poly2 not in poly0
+  push,49	;poly2 to R, anchor2 in poly2 to S
+  notr          ;reverse poly2
+  explrs	;expand anchor2 in poly2 to reverse poly2      
+  jrn           ;jump to next check area if no results
+  dsp,13,R,5    ;display poly0 in red
+  dsp,49,G,4    ;display poly2 in green
+  dsp,52,M,2    ;display anchor2 in magenta
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.10 Poly1-Poly2 spacing (I) >=3um
+distance= 3 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,49        ;make a bitmap of poly2
+  push,49       ;push poly2 into R
+  jrc           ;jump to next check area if no poly2
+  push,45       ;push poly1 into R poly2 into S
+  explrs        ;expand poly1 to poly2
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.11 Poly1-Anchor2 spacing (K) >=3um
+distance= 3 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,52        ;make a bitmap of anchor2
+  push,52       ;push anchor2 into R
+  jrc           ;jump to next check area if no anchor2
+  push,45       ;push poly1 into R anchor2 into S
+  explrs        ;expand poly1 to anchor2
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,52,M,2    ;display anchor2 in magenta
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+;already in Fig 2.9
+title= Fig 2.11 Poly1-Poly1_Poly2_VIA enclose (H) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,47        ;make a bitmap of p1p2v
+  push,45       ;poly1 into R
+  jrc		;no poly1
+  push,47	;push p1p2v
+  andrs		;p1p2v in poly1
+  push,45	;poly1 to R, p1p2v in poly1 to S
+  notr          ;reverse poly1
+  explrs	;expand p1p2v in poly1 to reverse poly1     
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,47,w,2    ;display p1p2v in gray
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.12 Poly2-Metal enclose (M) >=3um
+distance= 3 um
+resolution= 0.1 um
+operators=
+{
+  map,49        ;make a bitmap of poly2
+  map,51        ;make a bitmap of metal
+  push,49       ;poly2 into R
+  jrc		;no poly2
+  push,51	;push metal
+  andrs		;metal in poly2
+  push,49	;poly2 to R, metal in poly2 to S
+  notr          ;reverse poly2
+  explrs	;expand metal in poly2 to reverse poly2     
+  jrn           ;jump to next check area if no results
+  dsp,49,G,4    ;display poly2 in green
+  dsp,51,C,2    ;display metal in cyan
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.13 Poly1-Dimple enclose (N) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,50        ;make a bitmap of dimple
+  push,45       ;poly1 into R
+  jrc		;no poly1
+  push,50	;push dimple
+  andrs		;metal in poly1
+  push,45	;poly1 to R, dimple in poly1 to S
+  notr          ;reverse poly1
+  explrs	;expand dimple in poly1 to reverse poly1     
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,50,M,2    ;display dimple in magenta
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.14 Poly1-Poly2 enclose (O) >=4um
+distance= 4 um
+resolution= 0.1 um
+operators=
+{
+  map,45        ;make a bitmap of poly1
+  map,49        ;make a bitmap of poly2
+  push,45       ;poly1 into R
+  jrc		;no poly1
+  push,49	;push poly2 
+  andrs		;poly2  in poly1
+  push,45	;poly1 to R, poly2 in poly1 to S
+  notr          ;reverse poly1
+  explrs	;expand poly2 in poly1 to reverse poly1     
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+;these checks find P cutin errors
+
+title= Fig 2.14 Poly1-Poly2 cutin (P1) fail >0 to <=1.6um
+distance= 1.6 um
+resolution= .05
+
+operators=
+{
+  map,45        ;make bitmap of poly1
+  map,49        ;make bitmap of poly2
+  push,45       ;push poly1 into R
+  jrc		;jump to next check if no poly1
+  notr		;invert poly1
+  push,49       ;push poly2 into R expanded inverse poly1 into S
+  jrc           ;jump to next check area if no poly2
+  xorrs         ;XOR R,S to get poly2 not over expanded inverse poly1
+  notr          ;make inverse poly2 not over expanded inverse poly1
+  orrs		;OR expanded inverse poly1 in S to cover any poly2 in expanded inverse poly1
+  expr,0          ;expand R using offset overlap P2
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.14 Poly1-Poly2 cutin (P2) fail >1.6 to <=3.2um
+distance= 1.6 um
+resolution= .05
+guardband= 3.5 um
+
+operators=
+{
+  map,45        ;make bitmap of poly1
+  map,49        ;make bitmap of poly2
+  push,45       ;push poly1 into R
+  jrc		;jump to next check if no poly1
+  notr		;invert poly1
+  expr,0        ;expand inverse poly1 by 1.6/2
+  popr		;expanded inverse poly1 from S back to R,
+  expr,0        ;expand inverse poly1 again by 1.6/2
+  popr
+  push,49       ;push poly2 into R expanded inverse poly1 into S
+  jrc           ;jump to next check area if no poly2
+  xorrs         ;XOR R,S to get poly2 not over expanded inverse poly1
+  notr          ;make inverse poly2 not over expanded inverse poly1
+  orrs		;OR expanded inverse poly1 in S to cover any poly2 in expanded inverse poly1
+  expr,0        ;expand R to 3.2 using 0 offset
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.14 Poly1-Poly2 cutin (P3) fail >3.2um to <5.0um
+distance= 1.6 um
+resolution= .05
+guardband= 5 um
+
+operators=
+{
+  map,45        ;make bitmap of poly1
+  map,49        ;make bitmap of poly2
+  push,45       ;push poly1 into R
+  jrc		;jump to next check if no poly1
+  notr		;invert poly1
+  expr,0        ;expand inverse poly1 by 1.6/2
+  popr		;expanded inverse poly1 from S back to R,
+  expr,0        ;expand inverse poly1 again
+  popr		;expanded inverse poly1 from S back to R,
+  expr,0        ;expand inverse poly1 again
+  popr		;expanded inverse poly1 from S back to R,
+  expr,0        ;expand inverse poly1 again
+  popr		;expanded inverse poly1 from S back to R,
+  push,49       ;push poly2 into R expanded inverse poly1 into S
+  jrc           ;jump to next check area if no poly2
+  xorrs         ;XOR R,S to get poly2 not over expanded inverse poly1
+  notr          ;make inverse poly2 not over expanded inverse poly1
+  orrs		;OR expanded inverse poly1 in S to cover any poly2 in expanded inverse poly1
+  expr,2        ;expand R to 5.0um using 2 (.1) offset
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+;these checks find Q cutout errors
+
+title= Fig 2.14 Poly1-Poly2 cutout (Q1) fail >0 um to <=1.3um
+distance= 1.3 um
+resolution= .05
+guardband= 1.5 um
+operators=
+{
+  map,45        ;make bitmap of poly1
+  map,49        ;make bitmap of poly2
+  push,45       ;push poly1 into R
+  jrc		;jump to next check if no poly1
+  push,49       ;push poly2 into R expanded poly1 into S
+  jrc           ;jump to next check area if no poly2
+  xorrs         ;XOR R,S to get poly2 not over expanded poly1
+  notr          ;make inverse poly2 not over poly1x
+  orrs		;OR expanded poly1 in S to cover any poly2 in expanded poly1
+  expr,0	;expand R to 1.3um using offset
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.14 Poly1-Poly2 cutout (Q2) fail >1.35 um to <=2.6um
+distance= 1.3 um
+resolution= .05
+guardband= 3 um
+operators=
+{
+  map,45        ;make bitmap of poly1
+  map,49        ;make bitmap of poly2
+  push,45       ;push poly1 into R
+  jrc		;jump to next check if no poly1
+  expr,0        ;expand poly1 to .65um 
+  popr
+  expr,0        ;expand poly1 to 1.3um
+  popr
+  push,49       ;push poly2 into R expanded poly1 into S
+  jrc           ;jump to next check area if no poly2
+  xorrs         ;XOR R,S to get poly2 not over expanded poly1
+  notr          ;make inverse poly2 not over poly1x
+  orrs		;OR expanded poly1 in S to cover any poly2 in expanded poly1
+  expr,0	;expand R to 2.6um using 0 offset
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.14 Poly1-Poly2 cutout (Q3) fail >2.6 to <4um
+distance= 1.3 um
+resolution= .05
+guardband= 4 um
+operators=
+{
+  map,45        ;make bitmap of poly1
+  map,49        ;make bitmap of poly2
+  push,45       ;push poly1 into R
+  jrc		;jump to next check if no poly1
+  expr,0        ;expand poly1 to .65um 
+  popr
+  expr,0        ;expand poly1 to 1.3um
+  popr
+  expr,0        ;expand poly1 to 1.95um 
+  popr
+  expr,0        ;expand poly1 to 2.6um
+  popr
+  push,49       ;push poly2 into R expanded poly1 into S
+  jrc           ;jump to next check area if no poly2
+  xorrs         ;XOR R,S to get poly2 not over expanded poly1
+  notr          ;make inverse poly2 not over poly1x
+  orrs		;OR expanded poly1 in S to cover any poly2 in expanded poly1
+  expr,0	;expand R to 4.0um using 0 offset
+  jrn           ;jump to next check area if no results
+  dsp,45,O,3    ;display poly1 in orange
+  dsp,49,G,4    ;display poly2 in green
+  dspr,W,1      ;display gate extension errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.16 Hole2-Hole1 enclose  (T) >=2um
+distance= 2 um
+resolution= 0.05 um
+operators=
+{
+  map,10        ;make a bitmap of hole1
+  map,11        ;make a bitmap of hole2
+  push,10       ;hole1 into R
+  jrc		;no hole1
+  push,11	;push hole2 
+  andrs		;hole1 in hole2
+  push,11	;hole2 to R, hole1 in hole2 to S
+  notr          ;reverse hole2
+  explrs	;expand hole1 in hole2 to reverse hole2     
+  jrn           ;jump to next check area if no results
+  dsp,11,Y,3    ;display hole2 in yellow
+  dsp,10,B,2    ;display hole1 in blue
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+title= Fig 2.16 Holem-Hole2 enclose (U) >=2um
+distance= 2 um
+resolution= 0.05 um
+operators=
+{
+  map,11        ;make a bitmap of hole2
+  map,48        ;make a bitmap of holem
+  push,11       ;hole2 into R
+  jrc		;no hole2
+  push,48	;push holem 
+  andrs		;hole1 in holem
+  push,48	;holem to R, hole2 in holem to S
+  notr          ;reverse holem
+  explrs	;expand hole2 in holem to reverse holem     
+  jrn           ;jump to next check area if no results
+  dsp,48,C,4    ;display holem in cyan
+  dsp,11,Y,3    ;display hole2 in yellow
+  dspr,W,1      ;display spacing errors in white
+  pause
+  scpy
+}
+
+;This check produces reversed results, fail if no flag
+title= Fig 2.15 Etch Hole Poly1 separation (R) <=30um
+distance= 30.5 um
+resolution= .5 um
+operators=
+{
+  map,10        ;make a bitmap of poly1
+  push,10       ;push into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;gauge R to create merge bits
+  dsp,10,O,3    ;display poly1 in orange
+  dspr,W,1      ;display width errors in white
+  pause
+  scpy
+}
+
+;This check produces reversed results, fail if no flag
+title= Fig 2.15 Etch Hole Poly2 separation (S) <=30um
+distance= 30.5 um
+resolution= .5 um
+operators=
+{
+  map,11        ;make a bitmap of poly2
+  push,11       ;push into R
+  jrc           ;jump to next check area if R is clear
+  expr          ;gauge R to create merge bits
+  dsp,11,G,4    ;display poly2 in green
+  dspr,W,1      ;display width errors in white
+  pause
+  scpy
+}

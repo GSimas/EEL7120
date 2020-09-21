@@ -1,0 +1,164 @@
+*** LASI Design Rule Check Map Log  7.0.95  09/21/20  10:02:17
+
+** DRC File  Mosis_deep.drc
+
+Note: Read Text with Fixed Pitch Font
+
+** Cell:  2NOR1
+
+Check 1:  1.1 Well width
+Distance= 12 lam   Resolution= 0.5 lam   Dist/Res= 24   Rescale= 1   Map= 1024x640
+
+
+Check 2:  1.2 Well spacing
+Distance= 18 lam   Resolution= 0.5 lam   Dist/Res= 36   Rescale= 1   Map= 1024x640
+
+
+Check 3:  1.4 Wells of different type spacing =0 lam
+Distance= 0 lam   Resolution= 0.1 lam   Dist/Res= 0   Rescale= 1   Map= 1024x640
+
+
+Check 4:  2.1 Active width and extension
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 5:  2.2 Active spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 6:  2.3a PMOS source/drain active to n-well edge spacing (inner)
+Distance= 6 lam   Resolution= 0.6 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 7:  2.3b NMOS source/drain active to n-well edge spacing (outer)
+Distance= 6 lam   Resolution= 0.6 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 8:  2.3c NMOS source/drain active to p-well edge spacing (inner)
+Distance= 6 lam   Resolution= 0.6 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 9:  2.3d PMOS source/drain active to p-well edge spacing (outer)
+Distance= 6 lam   Resolution= 0.6 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 10:  2.4a P+ substrate connection to n-well edge spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 11:  2.4b N+ well connection to n-well edge spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 12:  2.4c P+ well connection to p-well edge spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 13:  2.4d N+ substrate connection to p-well edge spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 14:  2.5 Active of different select spacing non-abutting
+Distance= 4 lam   Resolution= 0.1 lam   Dist/Res= 40   Rescale= 1   Map= 1024x640
+
+
+Check 15:  3.1 Poly1 width
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 16:  3.2 Poly1 spacing  (over active)
+Distance= 4 lam   Resolution= 0.4 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 17:  3.2 Poly1 spacing  (over field)
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 18:  3.3a Poly1 gate extension (scmos subm deep <2lam cmosedu <1edu)
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 19:  3.3c Poly1 gate extension (deep cmosedu)
+Distance= 0.5 lam   Resolution= 0.05 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 20:  3.5 Poly1 to active
+Distance= 1 lam   Resolution= 0.1 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 21:  4.2 Select overlap of active
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 22:  4.4 Select width and spacing
+Distance= 4 lam   Resolution= 0.4 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 23:  4.4a Select spacing =0 lam
+Distance= 0 lam   Resolution= 0.1 lam   Dist/Res= 0   Rescale= 1   Map= 1024x640
+
+
+Check 24:  5.1 Exact contact size
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 25:  5.2 Poly1 overlap of contact (simple)
+Distance= 1.5 lam   Resolution= 0.15 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 26:  5.3 Contact spacing
+Distance= 4 lam   Resolution= 0.4 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 27:  5.4 Contact to gate of transistor spacing
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 28:  6.2 Active overlap of contact (simple)
+Distance= 1.5 lam   Resolution= 0.15 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 29:  7.1 Metal1 width
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 30:  7.2 Metal1 spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 31:  7.3 Metal1 overlap of contact
+Distance= 1 lam   Resolution= 0.1 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 32:   8.1 Exact via1 size
+Distance= 3 lam   Resolution= 0.1 lam   Dist/Res= 30   Rescale= 1   Map= 1024x640
+
+
+Check 33:  8.2 Via1 spacing
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 34:  8.3 Metal1 overlap of via1
+Distance= 1 lam   Resolution= 0.1 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 35:  8.4 Via1 to contact spacing (non-stacked vias)
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 36:  8.5 Via1 to poly1 or active edge spacing
+Distance= 2 lam   Resolution= 0.2 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 37:  9.1 Metal2 width
+Distance= 3 lam   Resolution= 0.3 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 38:  9.2 Metal2 spacing
+Distance= 4 lam   Resolution= 0.4 lam*   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+DRC Completed ...  0 Total Maps
+
+Total Run Time:  0hr 0min 25sec
+

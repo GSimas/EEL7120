@@ -1,0 +1,22 @@
+*header for academic 130nm process
+
+.options reltol=.01 rshunt=1e9 scale=.08
+.global vdd
+
+vdd vdd 0 dc 1.5
+
+va	a 0	dc 0 pulse	1.5 0	0n	0n	0n	100n	200n
+vb	b 0	dc 0 pulse	1.5 0	0n	0n	0n	50n	100n
+vcin	cin 0	dc 0 pulse	1.5 0	0n	0n	0n	25n	50n
+
+csum 	sum 0 100fF
+
+.control
+set color5=orange
+set color6=lt_cyan
+set color8=pink
+set color9=lt_grey
+destroy all
+tran .1n 200n
+plot v(a) v(b)+2 v(cin)+4 v(sum)+6 v(co)+8
+.endc

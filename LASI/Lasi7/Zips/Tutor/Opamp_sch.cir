@@ -1,0 +1,67 @@
+*** Spice Circuit File of OPAMP_SCH - LasiCkt  7.0.95  05/05/20  16:23:13
+
+*Note: Read Text with Fixed Pitch Font
+
+* Start of Opamp.hdr
+.SUBCKT PSRC1 1C 2C 3C 4B 5E 
+Q6 1C 4B 5E PNP1 .5
+Q7 2C 4B 5E PNP1 .5
+Q8 3C 4B 5E PNP1
+.ENDS
+
+.model NPN1 NPN
+.model PNP1 PNP
+.model NPN2 NPN
+.model PNP2 PNP
+.model SPNP1 PNP
+
+.options scale=1.0 reltol=.01
+
+.global VCC
+
+.control
+destroy all
+run
+save all
+tran 1us 100us
+*ac dec 5 10k 1e8
+plot in in2 out
+.endc
+
+Rout out 0 10000
+Rin in in1 1000
+Rfb out in1 10000
+Ccomp comp 0 .0001uf
+
+
+V1 VCC 0 10
+V2 IN 0 5V AC SIN(5 .1V 10khz 0 0 0)
+*V2 IN 0 5V AC PULSE(4.9 5.1 0 1us 1us 10us 50us) 
+V3 IN2 0 DC 5V
+
+* End of Opamp.hdr
+
+*** OPAMP_SCH ***
+
+* OPAMP_SCH
+
+Q1 vn1 vn1 0 NPN1
+Q10 vn3 vn3 0 NPN1
+Q11 vn4 vn3 0 NPN2
+Q12 vn11 vn5 vn4 NPN2
+Q13 0 vn4 OUT PNP2
+Q14 VCC vn11 OUT NPN2
+Q2 vn2 vn1 0 NPN1
+Q3 vn8 vn2 0 NPN1
+Q4 vn1 vn7 vn6 PNP1
+Q5 vn2 vn9 vn6 PNP1
+Q9 VCC vn8 vn11 NPN1
+R1 vn10 vn3 200K
+R2 vn5 vn11 75K
+R3 vn4 vn5 75K
+R4 IN1 vn7 200
+R5 IN2 vn9 200
+R6 COMP vn8 200
+X1 vn6 vn8 vn10 vn10 VCC PSRC1
+
+.END

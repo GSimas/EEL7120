@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<TLC>
+<L>
+14
+ISL 1
+ISO 2
+SINK 3
+BASE 4
+RES 5
+EMIT 6
+CONT 7
+MET 8
+TRACK 16
+NTXT 60
+CTXT 61
+DTXT 62
+PTXT 63
+SCHM 32
+</L>
+<H>
+TUBNC1
+7.0.88
+7.0.88
+20
+um
+04/23/15
+13:56:20
+1 0 0 440 300
+3 0 0 0
+</H>
+<B>
+6 0 0 440 300
+</B>
+<B>
+7 100 100 340 200
+</B>
+<B>
+8 60 60 380 240
+</B>

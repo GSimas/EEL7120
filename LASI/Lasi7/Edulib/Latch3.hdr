@@ -1,0 +1,25 @@
+*header for 180nm process lambda=.1
+
+.options reltol=.01 rshunt=1e9 scale=.1
+.global vdd
+
+vdd vdd 0 dc 3
+
+cout1 	q 	0 100fF
+cout2 	q_ 	0 100fF
+
+vclk clk 0	dc 0 pulse 0 3 	15n	1n	1n	10ns	50ns 
+vdat dat 0  	dc 0 pulse 0 3 	0n	1n	1n	50ns	100ns
+
+.control
+set color5=orange
+set color6=lt_cyan
+set color8=pink
+set color9=lt_grey
+destroy all
+tran 1ns 100ns
+save all
+plot   v(clk) v(dat)+10  v(q)+20 v(q_)+30
+*plot   v(clk) v(dat)+10  v(dat_)+20  v(tg)+30 v(q)+40 v(q_)+50
+*plot  i(vdd)
+.endc

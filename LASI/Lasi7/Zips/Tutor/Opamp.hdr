@@ -1,0 +1,35 @@
+.SUBCKT PSRC1 1C 2C 3C 4B 5E 
+Q6 1C 4B 5E PNP1 .5
+Q7 2C 4B 5E PNP1 .5
+Q8 3C 4B 5E PNP1
+.ENDS
+
+.model NPN1 NPN
+.model PNP1 PNP
+.model NPN2 NPN
+.model PNP2 PNP
+.model SPNP1 PNP
+
+.options scale=1.0 reltol=.01
+
+.global VCC
+
+.control
+destroy all
+run
+save all
+tran 1us 100us
+*ac dec 5 10k 1e8
+plot in in2 out
+.endc
+
+Rout out 0 10000
+Rin in in1 1000
+Rfb out in1 10000
+Ccomp comp 0 .0001uf
+
+
+V1 VCC 0 10
+V2 IN 0 5V AC SIN(5 .1V 10khz 0 0 0)
+*V2 IN 0 5V AC PULSE(4.9 5.1 0 1us 1us 10us 50us) 
+V3 IN2 0 DC 5V

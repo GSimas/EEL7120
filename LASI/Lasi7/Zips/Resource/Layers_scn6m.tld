@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<TLC>
+;SCN6N layers
+
+;Derived from MOSIS layer map
+;Always consult www.mosis.org for changes and additional information
+
+;Layer numbers are GDSII layer numbers
+;Comment indicates CIF layer names
+
+;This file will add the necessary layers to the layout
+;Install as TLD file with TLCin command
+
+<L>
+38
+ARRW 1	;Lasi custom layers
+OTLN 2	;for diagrams, schematic
+SCHM 3	;and circuit analysis
+NTXT 4
+CTXT 5
+DTXT 6
+PTXT 7
+POL1A 8
+NACT 9
+PACT 10
+MET1A 11
+MET2A 12
+CHAN 13
+CONTA 15
+NWELL 42	;CWN
+ACTIVE 43	;CAA
+THICKACT 60	;CTA	Optional
+POLY 46		;CPG
+SILBLOCK 29	;CSB	Optional
+N+SELECT 45	;CSN
+P+SELECT 44	;CSP
+CONTACT 25	;CCC
+POLYCONT 47	;CCP	Can be replaced by CONTACT
+ACTVCONT 48	;CCA	Can be replaced by CONTACT
+METAL1 49	;CM1
+VIA 50		;CV1
+METAL2 51	;CM2
+VIA2 61		;CV2
+METAL3 62	;CM3
+VIA3 30		;CV3
+METAL4 31	;CM4
+CAPTOPMT 35	;CTM	Optional
+VIA4 32		;CV4
+METAL5 33	;CM5
+VIA5 36		;CV5
+METAL6 37	;CM6
+GLASS 52	;COG
+PADS 26		;XP
+</L>
+</TLC>

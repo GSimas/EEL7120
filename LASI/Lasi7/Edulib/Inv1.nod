@@ -1,0 +1,14 @@
+*** Node List of INV1 - LasiCkt  7.0.95  05/05/20  16:12:00
+
+Note: Read Text with Fixed Pitch Font
+
+[INV1]
+0:1
+ M1.3  M1.4 
+In:3
+ M1.2  M2.2 
+Out:4
+ M1.1  M2.1 
+Vdd:2
+ M2.3  M2.4 
+::

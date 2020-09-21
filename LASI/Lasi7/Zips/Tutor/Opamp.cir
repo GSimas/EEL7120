@@ -1,0 +1,87 @@
+*** Spice Circuit File of OPAMP - LasiCkt  7.0.95  05/05/20  16:23:15
+
+*Note: Read Text with Fixed Pitch Font
+
+* Start of Opamp.hdr
+.SUBCKT PSRC1 1C 2C 3C 4B 5E 
+Q6 1C 4B 5E PNP1 .5
+Q7 2C 4B 5E PNP1 .5
+Q8 3C 4B 5E PNP1
+.ENDS
+
+.model NPN1 NPN
+.model PNP1 PNP
+.model NPN2 NPN
+.model PNP2 PNP
+.model SPNP1 PNP
+
+.options scale=1.0 reltol=.01
+
+.global VCC
+
+.control
+destroy all
+run
+save all
+tran 1us 100us
+*ac dec 5 10k 1e8
+plot in in2 out
+.endc
+
+Rout out 0 10000
+Rin in in1 1000
+Rfb out in1 10000
+Ccomp comp 0 .0001uf
+
+
+V1 VCC 0 10
+V2 IN 0 5V AC SIN(5 .1V 10khz 0 0 0)
+*V2 IN 0 5V AC PULSE(4.9 5.1 0 1us 1us 10us 50us) 
+V3 IN2 0 DC 5V
+
+* End of Opamp.hdr
+
+*** OPAMP ***
+
+* OPAMP
+
+Q1 vn4 vn4 0 NPN1
+Q10 vn6 vn6 0 NPN1
+Q11 vn7 vn6 0 NPN2
+Q12 vn9 vn8 vn7 NPN1
+Q13 0 vn7 OUT SPNP1
+Q14 VCC vn9 OUT NPN2
+Q2 vn5 vn4 0 NPN1
+Q3 vn2 vn5 0 NPN1
+Q4 vn4 vn3 vn11 PNP1
+Q5 vn5 vn1 vn11 PNP1
+Q9 VCC vn2 vn9 NPN1
+R1 vn10 vn6 200K
+R2 vn8 vn9 75K
+R3 vn7 vn8 75K
+R4 IN1 vn3 200
+R5 IN2 vn1 200
+R6 COMP vn2 200
+X1 vn11 vn2 vn10 vn10 VCC PSRC1
+
+* Node to Gnd Parasitic Caps
+C_COMP COMP 0 1.08955pF
+C_IN1 IN1 0 1.09855pF
+C_IN2 IN2 0 1.32990625pF
+C_OUT OUT 0 1.53686975pF
+C_VCC VCC 0 2.65305475pF
+C_vn1 vn1 0 0.07345pF
+C_vn10 vn10 0 0.240645pF
+C_vn11 vn11 0 0.256888pF
+C_vn2 vn2 0 0.63797pF
+C_vn3 vn3 0 0.06055pF
+C_vn4 vn4 0 0.15495pF
+C_vn5 vn5 0 0.157125pF
+C_vn6 vn6 0 0.451235pF
+C_vn7 vn7 0 0.2329pF
+C_vn8 vn8 0 0.10751pF
+C_vn9 vn9 0 0.59205975pF
+
+* Node to Node Parasitic Caps
+
+.END

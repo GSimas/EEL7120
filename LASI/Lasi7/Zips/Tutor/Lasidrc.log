@@ -1,0 +1,42 @@
+*** LASI Design Rule Check Map Log  7.0.95  09/20/20  18:06:06
+
+** DRC File  Tutor.drc
+
+Note: Read Text with Fixed Pitch Font
+
+** Cell:  INVCMOS
+
+Check 1: Layer MET Overlap (1)
+Distance= 0 um   Resolution= 0.5 um   Dist/Res= 0   Rescale= 1   Map= 1024x640
+
+
+Check 2: Fail MET Gaps <.2um (2)
+Distance= 0.2 um   Resolution= 0.05 um   Dist/Res= 4   Rescale= 1   Map= 1024x640
+
+
+Check 3: Fail METAL Spacing <10um (3)
+Distance= 10 um   Resolution= 0.5 um   Dist/Res= 20   Rescale= 1   Map= 1024x640
+
+
+Check 4: Fail METAL Width <=10um (4)
+Distance= 10 um   Resolution= 0.5 um   Dist/Res= 20   Rescale= 1   Map= 1024x640
+
+Area: L= -156 B= -129.25 R= 356 T= 190.75   Map File: INVCMOS_4_1.pcx
+
+Check 5: Fail ISL to ISO Spacing <10um (5)
+Distance= 10 um   Resolution= 0.5 um   Dist/Res= 20   Rescale= 1   Map= 1024x640
+
+Area: L= -156 B= -129.25 R= 356 T= 190.75   Map File: INVCMOS_5_1.pcx
+
+Check 6: Fail MET over CONT Coverage <2um (6)
+Distance= 2 um   Resolution= 0.2 um   Dist/Res= 10   Rescale= 1   Map= 1024x640
+
+
+Check 7: Check CONT in BASE or EMIT (7)
+Distance= 0 um   Resolution= 0.25 um   Dist/Res= 0   Rescale= 1   Map= 1024x640
+
+
+DRC Completed ...  2 Total Maps
+
+Total Run Time:  0hr 0min 31sec
+

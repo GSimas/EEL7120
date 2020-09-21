@@ -1,0 +1,26 @@
+*header for 180um process 
+*set CScale to .1
+
+.options reltol=.01 rshunt=1e9 scale=.1
+.global vdd
+
+vdd vdd 0 DC 3.0V
+vref vref 0 DC 1.5
+
+*vin in 0 DC 0 AC SIN(1.5 .1 2MEG)
+vin in 0 DC 1.5V AC PULSE(1.45 1.55 10ns 1ns 1ns 250ns 500ns)
+
+co out 0 10pf
+rout out vref 1000
+
+.control
+destroy all
+save all
+tran 2ns 1us
+*ac dec 6 10k 1e10
+
+plot  v(in) v(out)
+*plot i(v1) i(v2) i(v2)-i(v1)
+*plot i(v3) i(v4) i(v4)-i(v3)
+
+.endc

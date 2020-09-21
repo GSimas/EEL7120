@@ -1,0 +1,106 @@
+
+;Command Line Script for NPN1
+;Date: 02/25/11
+;Time: 15:05:33
+
+;box1
+obj b
+layr 1
+add 20 20 70 95
+
+;box2
+obj b
+layr 2
+add 80 0 90 115
+
+;box3
+obj b
+layr 2
+add 10 0 80 10
+
+;box4
+obj b
+layr 2
+add 0 0 10 115
+
+;box5
+obj b
+layr 2
+add 10 105 80 115
+
+;box6
+obj b
+layr 3
+add 34 84 56 91
+
+;box7
+obj b
+layr 6
+add 37 35 53 51
+
+;box8
+obj b
+layr 6
+add 30 80 60 95
+
+;box9
+obj b
+layr 7
+add 40 38 50 48
+
+;box10
+obj b
+layr 7
+add 40 60 50 65
+
+;box11
+obj b
+layr 7
+add 35 85 55 90
+
+;box12
+obj b
+layr 8
+add 38 36 52 50
+
+;box13
+obj b
+layr 8
+add 38 58 52 67
+
+;box14
+obj b
+layr 8
+add 33 83 57 92
+
+;path1
+obj p
+layr 4
+wdth 0
+add 35 70
+add 55 70
+add 60 65
+add 60 35
+add 55 30
+add 35 30
+add 30 35
+add 30 65
+add 35 70
+aput
+
+;text1
+tlyr 61
+tsiz 3
+text 45 87 1C
+
+;text2
+tlyr 61
+tsiz 3
+text 45 62 2B
+
+;text3
+tlyr 61
+tsiz 3
+text 45 43 3E
+
+fit

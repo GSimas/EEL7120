@@ -1,0 +1,56 @@
+*** Node List of DELAYOSC - LasiCkt  7.0.95  05/05/20  16:13:27
+
+Note: Read Text with Fixed Pitch Font
+
+[DELAY2]
+0:1
+ M1.3  M1.4  M11.3  M11.4  M3.3  M3.4  M5.3  M5.4  M7.3  M7.4  M9.3  M9.4 
+in:3
+ M1.2  M2.2 
+out:4
+ M11.1  M12.1 
+Vdd:2
+ M10.3  M10.4  M12.3  M12.4  M2.3  M2.4  M4.3  M4.4  M6.3  M6.4  M8.3  M8.4 
+vn1:5
+ M3.1  M4.1  M5.2  M6.2 
+vn2:6
+ M1.1  M2.1  M3.2  M4.2 
+vn3:7
+ M5.1  M6.1  M7.2  M8.2 
+vn4:8
+ M10.2  M7.1  M8.1  M9.2 
+vn5:9
+ M10.1  M11.2  M12.2  M9.1 
+::
+
+[INV1]
+0:1
+ M1.3  M1.4 
+In:3
+ M1.2  M2.2 
+Out:4
+ M1.1  M2.1 
+Vdd:2
+ M2.3  M2.4 
+::
+
+[DELAYOSC]
+0:1
+ X1.1  X2.1 
+out:0
+ X1.4  X2.3 
+out_:0
+ X1.3  X2.4 
+Vdd:2
+ X1.2  X2.2 
+vn1:0
+ X1.5 
+vn2:0
+ X1.6 
+vn3:0
+ X1.7 
+vn4:0
+ X1.8 
+vn5:0
+ X1.9 
+::

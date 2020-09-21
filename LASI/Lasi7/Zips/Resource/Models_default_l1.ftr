@@ -1,0 +1,9 @@
+*Basic CMOS Models lambda=1um
+*Use for testing Spice compile
+
+*Level 1 default model for nchan
+.MODEL NMOS NMOS level=1 KP=4.5e-5 vto=0
+
+*Level 1 default model for pchan
+.MODEL PMOS PMOS level=1 KP=1.5e-5 vto=0
+

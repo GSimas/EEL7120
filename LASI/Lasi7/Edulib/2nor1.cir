@@ -1,0 +1,24 @@
+*** Spice Circuit File of 2NOR1 - LasiCkt  7.0.95  09/21/20  10:07:49
+
+*Note: Read Text with Fixed Pitch Font
+
+*** 2NOR1 ***
+
+* 2NOR1 0 Vdd A B Out
+
+M1 Out A 0 0 NMOS2X6_TOK
+M2 Out B 0 0 NMOS2X6_TOK
+M3 vn1 A Vdd Vdd PMOS2X14_TOK
+M4 Out B vn1 Vdd PMOS2X14_TOK
+
+* Node to Gnd Parasitic Caps
+C_A A 0 0.30098fF
+C_B B 0 0.30098fF
+C_Out Out 0 3.573161fF
+C_Vdd Vdd 0 2.43fF
+C_vn1 vn1 0 2.624fF
+
+* Node to Node Parasitic Caps
+C_B_Out B Out 0.0736668fF
+
+.END

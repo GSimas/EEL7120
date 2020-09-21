@@ -1,0 +1,186 @@
+#define SPIRAL_SCRIPT
+#define RINGOSC_SCRIPT
+
+//prototypes
+#if defined RINGOSC_SCRIPT
+void RingoscScript(int);
+#endif
+
+#if defined SPIRAL_SCRIPT
+void SpiralScript(int,int,int,double);
+#endif
+
+//function calls
+#if defined SPIRAL_SCRIPT
+SpiralScript(2,10,24,3.);
+#endif
+
+#if defined RINGOSC_SCRIPT
+RingoscScript(31);
+#endif
+
+
+#if defined RINGOSC_SCRIPT
+
+//dimensions must be double
+#define INX 6.				//inverter input x offset
+#define INY 38.				//inverter input y offset
+#define OUTX 16.			//inverter output x offset
+#define OUTY 38.			//inverter output y offset
+#define INV "INV1"			//inverter name
+#define INVW 20.			//width of inverter cell
+#define ORGX 0.				//x origin of ring
+#define ORGY 0.				//y origin of ring
+#define UPY 90.				//y shipt up for feedback
+#define M1W 3.				//metal1 width
+
+void RingoscScript(int stages)
+{
+	FILE *ringosc;
+	int n;
+	char buf[32];
+
+	sprintf(buf,"Ringosc%d_script.txt",stages);
+	ringosc=fopen(buf,"wt");
+
+	fprintf(ringosc,";Script to make a Simple Ring Oscillator for SCMOS\n");
+	fprintf(ringosc,";Cell rank must be equal to or greater than 3\n");
+	fprintf(ringosc,";Drawing cell collection must contain INV1 from EduLib\n");
+	fprintf(ringosc,";Be careful to match double and int in fprint format\n\n");
+
+	fprintf(ringosc,"obj %s\n",INV);
+
+	fprintf(ringosc,"\n;make inverter string\n");
+	fprintf(ringosc,"tsiz %.4f\n",2.);	//text size
+
+	for(n=0;n<stages;n++)
+		fprintf(ringosc,"add %.4f %.4f\n",ORGX+n*INVW,ORGY);	//inv1 cell
+
+	fprintf(ringosc,"\n;cell device text\n");
+	fprintf(ringosc,"tlyr %d\n",6);	//device layer
+
+	for(n=0;n<stages;n++)
+		fprintf(ringosc,"text %.4f %.4f X%d\n",ORGX+n*INVW+INVW/2,ORGY+1,n+1);	//device text
+
+	fprintf(ringosc,"\n;met1 interconnects\n");
+	fprintf(ringosc,"layr %d\n",49);		//metal1
+	fprintf(ringosc,"obj p\n");				//path
+	fprintf(ringosc,"wdth %.4f\n",M1W);		//width
+
+	for(n=1;n<stages;n++){
+		fprintf(ringosc,"add %.4f %.4f\n",ORGX+OUTX+(n-1)*INVW,ORGY+OUTY);	//out
+		fprintf(ringosc,"add %.4f %.4f\n",ORGX+INX+n*INVW,ORGY+INY);		//in
+		fprintf(ringosc,"aput\n");
+	}
+
+	fprintf(ringosc,"\n;interconnect node text\n");
+	fprintf(ringosc,"tlyr %d\n",4);	//node layer
+	for(n=1;n<stages;n++)
+		fprintf(ringosc,"text %.4f %.4f N%d\n",ORGX+OUTX+(OUTX-INX)/2+(n-1)*INVW,ORGY+OUTY,n);	//node text
+
+	fprintf(ringosc,"\n;interconnect out to in\n");
+	fprintf(ringosc,"add %.4f %.4f\n",ORGX+INX,ORGY+INY);	//start
+	fprintf(ringosc,"add %.4f %.4f\n",ORGX-10,ORGY+INY);	//left
+	fprintf(ringosc,"add %.4f %.4f\n",ORGX-10,ORGY+UPY);	//up
+
+	fprintf(ringosc,"add %.4f %.4f\n",ORGX+(stages+.5)*INVW,ORGY+UPY);			//right
+	fprintf(ringosc,"add %.4f %.4f\n",ORGX+(stages+.5)*INVW,ORGY+OUTY);		//down
+	fprintf(ringosc,"add %.4f %.4f\n",ORGX+OUTX+(stages-1)*INVW,ORGY+OUTY);	//left
+	fprintf(ringosc,"aput\n");
+
+	fprintf(ringosc,"\n;signal in_out node text\n");
+	fprintf(ringosc,"tlyr %d\n",4);
+	fprintf(ringosc,"text %.4f %.4f In1_Out31\n",ORGX+(stages+.5)*INVW,ORGY+OUTY);	//signal node
+
+	fprintf(ringosc,"fit");
+	fclose(ringosc);
+}
+
+#endif
+
+//functions
+#if defined SPIRAL_SCRIPT
+
+#if !defined PIFX2
+#define PIFX2    6.2831853
+#endif
+
+#define M1        5.            //m1 pad size
+#define V1        3.            //via size
+#define M2        5.            //m2 pad size
+#define TSZ       3.            //text size
+
+void SpiralScript(int nloop1,int nloop2,int nsegs,double width)
+{
+    FILE *spiral;
+    double ang=0,aseg,x,y,r,x1,y1,end=5.;
+
+    aseg=360./nsegs;
+
+    spiral=fopen("Spiralscript.txt","wt");
+
+    fprintf(spiral,";Script to make a Spiral Inductor for SCMOS\n");
+
+    fprintf(spiral,"\n;layer and object for met1 path spiral\n");
+    fprintf(spiral,"layr %d\n",49);
+    fprintf(spiral,"obj p\n");
+    fprintf(spiral,"wdth %.4f\n",width);
+
+    fprintf(spiral,"\n;make center vertex\n");
+    fprintf(spiral,"add %.4f %.4f\n",0,0);
+
+    fprintf(spiral,"\n;make second vertex\n");
+    ang=360.*nloop1;
+    r=2*width*nloop1;
+    x=r*cos(aseg/2.*PIFX2/360)-width;
+    y=0;
+    fprintf(spiral,"add %.4f %.4f\n",x,y);
+
+    fprintf(spiral,"\n;make full spiral\n");
+    ang+=aseg;
+    while(ang<=nloop2*360){
+        r=2*width*ang/360;
+        x1=x=r*cos(ang*PIFX2/360);
+        y1=y=r*sin(ang*PIFX2/360);
+
+        fprintf(spiral,"add %.4f %.4f\n",x,y);
+        ang+=aseg;
+    }
+    
+    fprintf(spiral,"\n;make last vertex\n");
+    x1+=3*width;
+    fprintf(spiral,"add %.4f %.4f\n",x1,y1);
+
+    fprintf(spiral,"\n;terminate path\n");
+    fprintf(spiral,"aput\n");
+    
+    fprintf(spiral,"\n;add connection boxes\n");
+    fprintf(spiral,"obj b\n");
+
+    fprintf(spiral,"\n;start and finish met1 boxes\n");
+    fprintf(spiral,"add %.4f %.4f  %.4f %.4f\n",-M1/2,-M1/2,M1/2,M1/2);            //met1 inner box
+    fprintf(spiral,"add %.4f %.4f  %.4f %.4f\n",x1-M1/2,y1-M1/2,x1+M1/2,y1+M1/2);  //met1 outer box
+
+    fprintf(spiral,"\n;start and finish via1 boxes\n");
+    fprintf(spiral,"layr %d\n",50);
+    fprintf(spiral,"add %.4f %.4f  %.4f %.4f\n",-V1/2,-V1/2,V1/2,V1/2);            //via inner box
+    fprintf(spiral,"add %.4f %.4f  %.4f %.4f\n",x1-V1/2,y1-V1/2,x1+V1/2,y1+V1/2);  //via outer box
+
+    fprintf(spiral,"\n;start and finish met2 boxes\n");
+    fprintf(spiral,"layr %d\n",51);
+    fprintf(spiral,"add %.4f %.4f  %.4f %.4f\n",-M2/2,-M2/2,M2/2,M2/2);            //met2 inner box
+    fprintf(spiral,"add %.4f %.4f  %.4f %.4f\n",x1-M2/2,y1-M2/2,x1+M2/2,y1+M2/2);  //met2 outer box
+
+    fprintf(spiral,"\n;connector text\n");
+    fprintf(spiral,"tlyr %d\n",5);
+    fprintf(spiral,"tsiz %.4f\n",TSZ);
+
+    fprintf(spiral,"text %.4f %.4f %s\n",0.,0.,"1");    //inner connector text
+    fprintf(spiral,"text %.4f %.4f %s\n",x1,y1,"2");    //outer connector text
+
+    fprintf(spiral,"fit");
+    fclose(spiral);
+}
+
+#endif
+

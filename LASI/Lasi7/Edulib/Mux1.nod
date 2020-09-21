@@ -1,0 +1,26 @@
+*** Node List of MUX1 - LasiCkt  7.0.95  05/05/20  16:12:42
+
+Note: Read Text with Fixed Pitch Font
+
+[MUX1]
+0:1
+ M1.3  M1.4  M2.3  M2.4  M3.4  M4.3  M4.4  M5.4  M6.3  M6.4 
+In1:3
+ M1.2  M7.2 
+In2:4
+ M12.2  M6.2 
+Out:6
+ M10.1  M4.1 
+Sel:5
+ M11.2  M2.2  M3.2  M8.2 
+Vdd:2
+ M10.3  M10.4  M11.4  M12.3  M12.4  M7.3  M7.4  M8.3  M8.4  M9.4 
+vn1:0
+ M1.1  M3.3  M7.1  M9.3 
+vn2:0
+ M10.2  M11.1  M3.1  M4.2  M5.1  M9.1 
+vn3:0
+ M2.1  M5.2  M8.1  M9.2 
+vn4:0
+ M11.3  M12.1  M5.3  M6.1 
+::

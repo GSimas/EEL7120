@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<TLC>
+;AMI_C5N process layers
+
+;Derived from MOSIS layer map
+;Always consult www.mosis.org for changes and additional information
+
+;Layer numbers are GDSII layer numbers
+;Comment indicates CIF layer names
+
+;This file will add the necessary layers to the layout
+;Install as TLD file with TLCin command
+
+<L>
+15
+NWELL 1		;A01
+ACTIVE 2	;A02
+NCHANFLD 3	;A03	Derived
+POLY 4		;A04
+N+BLOCK 5	;A05	Derived, see MOSIS AMI_CN5 layer map
+P+SELECT 6	;A06	
+CONTACT 8	;A08
+METAL1 9	;A09
+VIA1 10		;A10
+METAL2 11	;A11
+VIA2 12		;A12
+METAL3 13	:A13
+CAPPOLY 26	;A26	Optional
+HRP 27		;A27
+GLASS 14	;A14
+</L>
+</TLC>

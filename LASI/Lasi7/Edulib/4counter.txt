@@ -1,0 +1,704 @@
+;*** Script for 4COUNTER (3)  7.0.71  02/27/11  20:35:11
+
+;cell1
+obj 3NAND1
+add 300 0 0
+
+;cell2
+obj 3NAND1
+add 344 0 0
+
+;cell3
+obj 3NAND1
+add 388 0 0
+
+;cell4
+obj 3NAND1
+add 432 0 0
+
+;cell5
+obj DFF1
+add 0 0 0
+
+;cell6
+obj DFF1
+add 150 0 0
+
+;box1
+obj b
+layr 49
+add 21.5 88.5 26.5 93.5
+
+;box2
+obj b
+layr 50
+add 22.5 89.5 25.5 92.5
+
+;box3
+obj b
+layr 51
+add 21.5 88.5 26.5 93.5
+
+;box4
+obj b
+layr 49
+add 315.5 88.5 320.5 93.5
+
+;box5
+obj b
+layr 50
+add 316.5 89.5 319.5 92.5
+
+;box6
+obj b
+layr 51
+add 315.5 88.5 320.5 93.5
+
+;box7
+obj b
+layr 49
+add 359.5 88.5 364.5 93.5
+
+;box8
+obj b
+layr 50
+add 360.5 89.5 363.5 92.5
+
+;box9
+obj b
+layr 49
+add 3.5 95.5 8.5 100.5
+
+;box10
+obj b
+layr 50
+add 4.5 96.5 7.5 99.5
+
+;box11
+obj b
+layr 51
+add 3.5 95.5 8.5 100.5
+
+;box12
+obj b
+layr 49
+add 143.5 95.5 148.5 100.5
+
+;box13
+obj b
+layr 50
+add 144.5 96.5 147.5 99.5
+
+;box14
+obj b
+layr 51
+add 143.5 95.5 148.5 100.5
+
+;box15
+obj b
+layr 49
+add 171.5 95.5 176.5 100.5
+
+;box16
+obj b
+layr 50
+add 172.5 96.5 175.5 99.5
+
+;box17
+obj b
+layr 51
+add 171.5 95.5 176.5 100.5
+
+;box18
+obj b
+layr 49
+add 303.5 95.5 308.5 100.5
+
+;box19
+obj b
+layr 50
+add 304.5 96.5 307.5 99.5
+
+;box20
+obj b
+layr 51
+add 303.5 95.5 308.5 100.5
+
+;box21
+obj b
+layr 50
+add 448.5 89.5 451.5 92.5
+
+;box22
+obj b
+layr 51
+add 447.5 88.5 452.5 93.5
+
+;box23
+obj b
+layr 51
+add 359.5 88.5 364.5 93.5
+
+;box24
+obj b
+layr 49
+add 403.5 88.5 408.5 93.5
+
+;box25
+obj b
+layr 50
+add 404.5 89.5 407.5 92.5
+
+;box26
+obj b
+layr 51
+add 403.5 88.5 408.5 93.5
+
+;box27
+obj b
+layr 49
+add 447.5 88.5 452.5 93.5
+
+;box28
+obj b
+layr 49
+add 391.5 95.5 396.5 100.5
+
+;box29
+obj b
+layr 50
+add 392.5 96.5 395.5 99.5
+
+;box30
+obj b
+layr 51
+add 391.5 95.5 396.5 100.5
+
+;box31
+obj b
+layr 49
+add 469.5 88.5 474.5 93.5
+
+;box32
+obj b
+layr 50
+add 470.5 89.5 473.5 92.5
+
+;box33
+obj b
+layr 51
+add 469.5 88.5 474.5 93.5
+
+;box34
+obj b
+layr 49
+add 371.5 102.5 376.5 107.5
+
+;box35
+obj b
+layr 49
+add 153.5 109.5 158.5 114.5
+
+;box36
+obj b
+layr 50
+add 154.5 110.5 157.5 113.5
+
+;box37
+obj b
+layr 51
+add 153.5 109.5 158.5 114.5
+
+;box38
+obj b
+layr 49
+add 123.5 102.5 128.5 107.5
+
+;box39
+obj b
+layr 50
+add 124.5 103.5 127.5 106.5
+
+;box40
+obj b
+layr 51
+add 123.5 102.5 128.5 107.5
+
+;box41
+obj b
+layr 49
+add 293.5 109.5 298.5 114.5
+
+;box42
+obj b
+layr 50
+add 294.5 110.5 297.5 113.5
+
+;box43
+obj b
+layr 51
+add 293.5 109.5 298.5 114.5
+
+;box44
+obj b
+layr 49
+add 327.5 109.5 332.5 114.5
+
+;box45
+obj b
+layr 50
+add 328.5 110.5 331.5 113.5
+
+;box46
+obj b
+layr 51
+add 327.5 109.5 332.5 114.5
+
+;box47
+obj b
+layr 49
+add 347.5 109.5 352.5 114.5
+
+;box48
+obj b
+layr 50
+add 348.5 110.5 351.5 113.5
+
+;box49
+obj b
+layr 51
+add 347.5 109.5 352.5 114.5
+
+;box50
+obj b
+layr 49
+add 273.5 116.5 278.5 121.5
+
+;box51
+obj b
+layr 50
+add 274.5 117.5 277.5 120.5
+
+;box52
+obj b
+layr 51
+add 273.5 116.5 278.5 121.5
+
+;box53
+obj b
+layr 49
+add 337.5 123.5 342.5 128.5
+
+;box54
+obj b
+layr 50
+add 338.5 124.5 341.5 127.5
+
+;box55
+obj b
+layr 51
+add 337.5 123.5 342.5 128.5
+
+;box56
+obj b
+layr 50
+add 416.5 117.5 419.5 120.5
+
+;box57
+obj b
+layr 51
+add 415.5 116.5 420.5 121.5
+
+;box58
+obj b
+layr 49
+add 435.5 116.5 440.5 121.5
+
+;box59
+obj b
+layr 50
+add 436.5 117.5 439.5 120.5
+
+;box60
+obj b
+layr 51
+add 435.5 116.5 440.5 121.5
+
+;box61
+obj b
+layr 51
+add 371.5 102.5 376.5 107.5
+
+;box62
+obj b
+layr 49
+add 459.5 102.5 464.5 107.5
+
+;box63
+obj b
+layr 49
+add 415.5 116.5 420.5 121.5
+
+;box64
+obj b
+layr 49
+add 381.5 123.5 386.5 128.5
+
+;box65
+obj b
+layr 50
+add 382.5 124.5 385.5 127.5
+
+;box66
+obj b
+layr 51
+add 381.5 123.5 386.5 128.5
+
+;box67
+obj b
+layr 49
+add 425.5 123.5 430.5 128.5
+
+;box68
+obj b
+layr 50
+add 426.5 124.5 429.5 127.5
+
+;box69
+obj b
+layr 51
+add 425.5 123.5 430.5 128.5
+
+;box70
+obj b
+layr 50
+add 460.5 103.5 463.5 106.5
+
+;box71
+obj b
+layr 51
+add 459.5 102.5 464.5 107.5
+
+;box72
+obj b
+layr 50
+add 372.5 103.5 375.5 106.5
+
+;text1
+tlyr 6
+tsiz 3
+text 36 10 X1
+
+;text2
+tlyr 6
+tsiz 3
+text 180 10 X2
+
+;text3
+tlyr 6
+tsiz 3
+text 314 12 x3
+
+;text4
+tlyr 6
+tsiz 3
+text 358 12 x4
+
+;text5
+tlyr 6
+tsiz 3
+text 402 12 x5
+
+;text6
+tlyr 6
+tsiz 3
+text 444 12 x6
+
+;path1
+obj p
+layr 51
+wdth 3
+add 24 46
+add 24 91
+aput
+
+;path2
+obj p
+layr 51
+wdth 3
+add 6 38
+add 6 98
+aput
+
+;path3
+obj p
+layr 51
+wdth 3
+add 146 40
+add 146 98
+aput
+
+;path4
+obj p
+layr 51
+wdth 3
+add 174 46
+add 174 98
+aput
+
+;path5
+obj p
+layr 51
+wdth 3
+add 126 40
+add 126 105
+aput
+
+;path6
+obj p
+layr 51
+wdth 3
+add 156 38
+add 156 112
+aput
+
+;path7
+obj p
+layr 51
+wdth 3
+add 318 38
+add 318 91
+aput
+
+;path8
+obj p
+layr 51
+wdth 3
+add 306 38
+add 306 98
+aput
+
+;path9
+obj p
+layr 51
+wdth 3
+add 296 40
+add 296 112
+aput
+
+;path10
+obj p
+layr 51
+wdth 3
+add 330 38
+add 330 112
+aput
+
+;path11
+obj p
+layr 51
+wdth 3
+add 350 38
+add 350 112
+aput
+
+;path12
+obj p
+layr 51
+wdth 3
+add 276 40
+add 276 119
+aput
+
+;path13
+obj p
+layr 51
+wdth 3
+add 340 38
+add 340 126
+aput
+
+;path14
+obj p
+layr 51
+wdth 3
+add 394 38
+add 394 98
+aput
+
+;path15
+obj p
+layr 51
+wdth 3
+add 362 38
+add 362 91
+aput
+
+;path16
+obj p
+layr 51
+wdth 3
+add 374 38
+add 374 105
+aput
+
+;path17
+obj p
+layr 51
+wdth 3
+add 462 38
+add 462 105
+aput
+
+;path18
+obj p
+layr 51
+wdth 3
+add 406 38
+add 406 91
+aput
+
+;path19
+obj p
+layr 51
+wdth 3
+add 450 38
+add 450 91
+aput
+
+;path20
+obj p
+layr 51
+wdth 3
+add 418 38
+add 418 119
+aput
+
+;path21
+obj p
+layr 51
+wdth 3
+add 438 38
+add 438 119
+aput
+
+;path22
+obj p
+layr 51
+wdth 3
+add 384 38
+add 384 126
+aput
+
+;path23
+obj p
+layr 51
+wdth 3
+add 428 38
+add 428 126
+aput
+
+;path24
+obj p
+layr 51
+wdth 3
+add 472 38
+add 472 91
+aput
+
+;path25
+obj p
+layr 49
+wdth 3
+add 24 91
+add 450 91
+aput
+
+;path26
+obj p
+layr 49
+wdth 3
+add 276 119
+add 438 119
+aput
+
+;text7
+tlyr 4
+tsiz 3
+text 438 119 Out2
+
+;text8
+tlyr 4
+tsiz 3
+text 472 91 N3
+
+;text9
+tlyr 4
+tsiz 3
+text 450 91 Clk
+
+;path27
+obj p
+layr 49
+wdth 3
+add 6 98
+add 394 98
+aput
+
+;path28
+obj p
+layr 49
+wdth 3
+add 126 105
+add 462 105
+aput
+
+;path29
+obj p
+layr 49
+wdth 3
+add 156 112
+add 350 112
+aput
+
+;text10
+tlyr 4
+tsiz 3
+text 340 126 N0
+
+;text11
+tlyr 4
+tsiz 3
+text 350 112 Out2_
+
+;text12
+tlyr 4
+tsiz 3
+text 428 126 N2
+
+;text13
+tlyr 4
+tsiz 3
+text 394 98 Out1_
+
+;text14
+tlyr 4
+tsiz 3
+text 384 126 N1
+
+;text15
+tlyr 4
+tsiz 3
+text 462 105 Out1
+
+;text16
+tlyr 4
+tsiz 3
+text 14 3 0
+
+;text17
+tlyr 4
+tsiz 3
+text 13.5 73.5 Vdd
+
+fit

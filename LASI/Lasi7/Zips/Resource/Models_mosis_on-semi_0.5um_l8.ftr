@@ -1,0 +1,192 @@
+*************************************************************************************
+* These models are derived from recent MOSIS process test data.
+* The models should be used for educational purposes only.
+
+* Lambda=.3um
+
+* For Spice Compile:
+
+* Use model names NMOS and PMOS to be consistent with differnt processes.
+* Use the CAPACITANCE PARAMETERS below to set values in the Layer Capacitance table.
+* Set .options scale=.3
+* For HSPICE set LEVEL= 49
+ 
+*************************************************************************************                                         
+*                           MOSIS WAFER ACCEPTANCE TESTS
+                                          
+*          RUN: V03M                                        VENDOR: AMIS (ON-SEMI)
+*     TECHNOLOGY: SCN05                                FEATURE SIZE: 0.5 microns
+*                                   Run type: SKD
+
+
+*INTRODUCTION: This report contains the lot average results obtained by MOSIS
+*              from measurements of MOSIS test structures on each wafer of
+*              this fabrication lot. SPICE parameters obtained from similar
+*              measurements on a selected wafer are also attached.
+
+*COMMENTS: SMSCN3ME06_ON-SEMI
+
+
+*TRANSISTOR PARAMETERS     W/L      N-CHANNEL P-CHANNEL  UNITS
+                                                       
+* MINIMUM                  3.0/0.6                      
+*  Vth                                   0.77     -0.89  volts
+                                                       
+* SHORT                    20.0/0.6                     
+*  Idss                                482      -274     uA/um
+*  Vth                                   0.65     -0.87  volts
+*  Vpt                                  13.0     -11.7   volts
+                                                       
+* WIDE                     20.0/0.6                     
+*  Ids0                                < 2.5     < 2.5   pA/um
+                                                       
+* LARGE                    50/50                        
+*  Vth                                   0.67     -0.94  volts
+* Vjbkd                                10.9     -11.8   volts
+*  Ijlk                                102.5     <50.0   pA
+*  Gamma                                 0.49      0.56  V^0.5
+                                                       
+* K' (Uo*Cox/2)                         58.4     -19.0   uA/V^2
+* Low-field Mobility                   476.93    155.17  cm^2/V*s
+                                                       
+*COMMENTS: Poly bias varies with design technology. To account for mask
+*           bias use the appropriate value for the parameter XL in your
+*           SPICE model card.
+*                       Design Technology                   XL (um)  XW (um)
+*                       -----------------                   -------  ------
+*                       SCMOS_SUBM (lambda=0.30)             0.10     0.00
+*                       SCMOS (lambda=0.35)                  0.00     0.20
+
+
+*FOX TRANSISTORS           GATE      N+ACTIVE  P+ACTIVE  UNITS
+* Vth                      Poly        >15.0    <-15.0   volts
+
+
+*PROCESS PARAMETERS     N+     P+     POLY  PLY2_HR  POLY2   M1    M2   UNITS
+* Sheet Resistance      83.1  104.1  23.2   1103     41.8   0.09  0.09  ohms/sq
+* Contact Resistance    58.9  145.5  16.0            26.7         0.89  ohms
+* Gate Oxide Thickness 141                                              angstrom
+                                                                      
+*PROCESS PARAMETERS             M3   N\PLY      N_W      UNITS
+* Sheet Resistance             0.05    807       801     ohms/sq
+* Contact Resistance           0.96                      ohms
+                                                       
+*COMMENTS: N\POLY is N-well under polysilicon.
+
+
+*CAPACITANCE PARAMETERS   N+   P+   POLY   POLY2   M1   M2   M3   N_W    UNITS
+* Area (substrate)       415  721    84            28   12    7     92   aF/um^2
+* Area (N+active)                  2453            36   16   11          aF/um^2
+* Area (P+active)                  2357                                  aF/um^2
+* Area (poly)                              869     60   15    9          aF/um^2
+* Area (poly2)                                     57                    aF/um^2
+* Area (metal1)                                         30   12          aF/um^2
+* Area (metal2)                                              28          aF/um^2
+* Fringe (substrate)     356  227                  54   33   26          aF/um
+* Fringe (poly)                                    67   37   27          aF/um
+* Fringe (metal1)                                       52   32          aF/um
+* Fringe (metal2)                                            53          aF/um
+* Overlap (N+active)                182                                  aF/um
+* Overlap (P+active)                234                                  aF/um
+                                                                       
+
+*CIRCUIT PARAMETERS                            UNITS      
+* Inverters                     K                         
+*  Vinv                        1.0       2.06  volts      
+*  Vinv                        1.5       2.33  volts      
+*  Vol                         2.0       0.46  volts      
+* Voh                         2.0       4.51  volts      
+*  Vinv                        2.0       2.52  volts      
+*  Gain                        2.0     -16.53             
+* Ring Oscillator Freq.                                   
+*  DIV256 (31-stg,5.0V)                106.82  MHz        
+*  D256_WIDE (31-stg,5.0V)             168.99  MHz        
+* Ring Oscillator Power                                   
+*  DIV256 (31-stg,5.0V)                  0.46  uW/MHz/gate
+*  D256_WIDE (31-stg,5.0V)               0.96  uW/MHz/gate
+                                                         
+*COMMENTS: SUBMICRON
+
+
+
+
+* V03M SPICE BSIM3 VERSION 3.1 PARAMETERS
+
+*SPICE 3f5 Level 8, Star-HSPICE Level 49, UTMOST Level 8
+
+* DATE: Jul  6/10
+* LOT: V03M                  WAF: 0102
+* Temperature_parameters=Default
+.MODEL nmos NMOS (                                LEVEL   = 8
++VERSION = 3.1            TNOM    = 27             TOX     = 1.41E-8
++XJ      = 1.5E-7         NCH     = 1.7E17         VTH0    = 0.6162345
++K1      = 0.9246         K2      = -0.1089101     K3      = 27.2615565
++K3B     = -9.4963817     W0      = 1E-8           NLX     = 1.000787E-9
++DVT0W   = 0              DVT1W   = 0              DVT2W   = 0
++DVT0    = 0.8493296      DVT1    = 0.3241503      DVT2    = -0.5
++U0      = 459.0575002    UA      = 1E-13          UB      = 1.394833E-18
++UC      = 4.839919E-13   VSAT    = 1.987197E5     A0      = 0.5925244
++AGS     = 0.1275819      B0      = 1.925212E-6    B1      = 5E-6
++KETA    = -8.462738E-3   A1      = 9.708605E-5    A2      = 0.3
++RDSW    = 1.072613E3     PRWG    = 0.1042314      PRWB    = 4.05832E-3
++WR      = 1              WINT    = 2.473362E-7    LINT    = 9.173131E-8
+*+XL      = 1E-7           XW      = 0              
++DWG     = -6.675418E-9
++DWB     = 2.447593E-8    VOFF    = -7.74456E-5    NFACTOR = 0.5570955
++CIT     = 0              CDSC    = 2.4E-4         CDSCD   = 0
++CDSCB   = 0              ETA0    = 3.076778E-3    ETAB    = 5.035611E-3
++DSUB    = 0.0476483      PCLM    = 2.098986       PDIBLC1 = 3.765104E-4
++PDIBLC2 = 1.129309E-3    PDIBLCB = 0.0260611      DROUT   = 3.567674E-5
++PSCBE1  = 1.409157E10    PSCBE2  = 2.802277E-9    PVAG    = 0.0106634
++DELTA   = 0.01           RSH     = 83.1           MOBMOD  = 1
++PRT     = 0              UTE     = -1.5           KT1     = -0.11
++KT1L    = 0              KT2     = 0.022          UA1     = 4.31E-9
++UB1     = -7.61E-18      UC1     = -5.6E-11       AT      = 3.3E4
++WL      = 0              WLN     = 1              WW      = 0
++WWN     = 1              WWL     = 0              LL      = 0
++LLN     = 1              LW      = 0              LWN     = 1
++LWL     = 0              CAPMOD  = 2              XPART   = 0.5
++CGDO    = 1.82E-10       CGSO    = 1.82E-10       CGBO    = 1E-9
++CJ      = 4.131883E-4    PB      = 0.8386593      MJ      = 0.4339073
++CJSW    = 3.430713E-10   PBSW    = 0.8            MJSW    = 0.1894648
++CJSWG   = 1.64E-10       PBSWG   = 0.8            MJSWG   = 0.1894648
++CF      = 0              PVTH0   = -0.0467729     PRDSW   = 188.2625219
++PK2     = -0.0599616     WKETA   = 2.387558E-3    LKETA   = 0.0355701       )
+*
+.MODEL pmos PMOS (                                LEVEL   = 8
++VERSION = 3.1            TNOM    = 27             TOX     = 1.41E-8
++XJ      = 1.5E-7         NCH     = 1.7E17         VTH0    = -0.9152268
++K1      = 0.553472       K2      = 7.871921E-3    K3      = 2.6842734
++K3B     = -0.2469301     W0      = 5.866233E-7    NLX     = 5.057577E-8
++DVT0W   = 0              DVT1W   = 0              DVT2W   = 0
++DVT0    = 1.4134858      DVT1    = 0.3588549      DVT2    = -0.1323389
++U0      = 201.3603195    UA      = 2.408572E-9    UB      = 1E-21
++UC      = -1E-10         VSAT    = 1.442893E5     A0      = 0.7862206
++AGS     = 0.0964655      B0      = 6.485944E-7    B1      = 0
++KETA    = -4.865785E-3   A1      = 1.975808E-4    A2      = 0.3373673
++RDSW    = 3E3            PRWG    = -0.0261211     PRWB    = -0.0514556
++WR      = 1              WINT    = 2.757836E-7    LINT    = 1.278007E-7
+*+XL      = 1E-7           XW      = 0              
++DWG     = -2.25981E-10
++DWB     = -2.30635E-8    VOFF    = -0.0717956     NFACTOR = 0.6520461
++CIT     = 0              CDSC    = 2.4E-4         CDSCD   = 0
++CDSCB   = 0              ETA0    = 0              ETAB    = -0.2
++DSUB    = 1              PCLM    = 2.4577256      PDIBLC1 = 0.0307366
++PDIBLC2 = 3.333441E-3    PDIBLCB = -0.0395397     DROUT   = 0.1941905
++PSCBE1  = 1E8            PSCBE2  = 3.377018E-9    PVAG    = 0.0150076
++DELTA   = 0.01           RSH     = 104.1          MOBMOD  = 1
++PRT     = 0              UTE     = -1.5           KT1     = -0.11
++KT1L    = 0              KT2     = 0.022          UA1     = 4.31E-9
++UB1     = -7.61E-18      UC1     = -5.6E-11       AT      = 3.3E4
++WL      = 0              WLN     = 1              WW      = 0
++WWN     = 1              WWL     = 0              LL      = 0
++LLN     = 1              LW      = 0              LWN     = 1
++LWL     = 0              CAPMOD  = 2              XPART   = 0.5
++CGDO    = 2.34E-10       CGSO    = 2.34E-10       CGBO    = 1E-9
++CJ      = 7.200473E-4    PB      = 0.870261       MJ      = 0.4900775
++CJSW    = 2.150749E-10   PBSW    = 0.8247353      MJSW    = 0.1810404
++CJSWG   = 6.4E-11        PBSWG   = 0.8247353      MJSWG   = 0.1810404
++CF      = 0              PVTH0   = 5.98016E-3     PRDSW   = 14.8598424
++PK2     = 3.73981E-3     WKETA   = 9.036892E-3    LKETA   = -8.662404E-3    )
+*
+

@@ -1,0 +1,222 @@
+
+;Command Line Script for PNP1
+;Date: 02/25/11
+;Time: 15:06:00
+
+;box1
+obj b
+layr 1
+add 20 10 70 95
+
+;box2
+obj b
+layr 2
+add 80 -10 90 115
+
+;box3
+obj b
+layr 2
+add 10 -10 80 0
+
+;box4
+obj b
+layr 2
+add 0 -10 10 115
+
+;box5
+obj b
+layr 2
+add 10 105 80 115
+
+;box6
+obj b
+layr 3
+add 34 84 56 91
+
+;box7
+obj b
+layr 6
+add 30 80 60 95
+
+;box8
+obj b
+layr 7
+add 35 20 55 25
+
+;box9
+obj b
+layr 7
+add 40 51 50 59
+
+;box10
+obj b
+layr 7
+add 35 85 55 90
+
+;box11
+obj b
+layr 8
+add 33 18 57 27
+
+;box12
+obj b
+layr 8
+add 33 83 57 92
+
+;path1
+obj p
+layr 4
+wdth 0
+add 30 15
+add 25 20
+add 25 55
+add 25.5 59
+add 26.5 62.7
+add 28.2 66
+add 30.7 69.2
+add 34 71.7
+add 37.2 73.5
+add 41 74.5
+add 45 75
+add 49 74.5
+add 52.7 73.5
+add 56 71.7
+add 59.2 69.2
+add 61.7 66
+add 63.5 62.7
+add 64.5 59
+add 65 55
+add 65 20
+add 60 15
+add 45 15
+add 45 40
+add 48 40.2
+add 50.7 41.2
+add 53.2 42.5
+add 55.5 44.5
+add 57.5 46.7
+add 58.7 49.2
+add 59.7 52
+add 60 55
+add 59.7 58
+add 58.7 60.7
+add 57.5 63.2
+add 55.5 65.5
+add 53.2 67.5
+add 50.7 68.7
+add 48 69.7
+add 45 70
+add 42 69.7
+add 39.2 68.7
+add 36.7 67.5
+add 34.5 65.5
+add 32.5 63.2
+add 31.2 60.7
+add 30.2 58
+add 30 55
+add 30.2 52
+add 31.2 49.2
+add 32.5 46.7
+add 34.5 44.5
+add 36.7 42.5
+add 39.2 41.2
+add 42 40.2
+add 45 40
+add 45 15
+add 30 15
+aput
+
+;path2
+obj p
+layr 4
+wdth 0
+add 35 55
+add 35.2 53
+add 35.7 51.2
+add 36.7 49.5
+add 38 48
+add 39.5 46.7
+add 41.2 45.7
+add 43 45.2
+add 45 45
+add 47 45.2
+add 48.7 45.7
+add 50.5 46.7
+add 52 48
+add 53.2 49.5
+add 54.2 51.2
+add 54.7 53
+add 55 55
+add 54.7 57
+add 54.2 58.7
+add 53.2 60.5
+add 52 62
+add 50.5 63.2
+add 48.7 64.2
+add 47 64.7
+add 45 65
+add 43 64.7
+add 41.2 64.2
+add 39.5 63.2
+add 38 62
+add 36.7 60.5
+add 35.7 58.7
+add 35.2 57
+add 35 55
+aput
+
+;path3
+obj p
+layr 8
+wdth 0
+add 28 55
+add 28.2 58.5
+add 29.5 61.5
+add 30.7 64.5
+add 33 67
+add 35.5 69.2
+add 38.5 70.5
+add 41.5 71.7
+add 45 72
+add 48.5 71.7
+add 51.5 70.5
+add 54.5 69.2
+add 57 67
+add 59.2 64.5
+add 60.5 61.5
+add 61.7 58.5
+add 62 55
+add 61.7 51.5
+add 60.5 48.5
+add 59.2 45.5
+add 57 43
+add 54.5 40.7
+add 51.5 39.5
+add 48.5 38.2
+add 45 38
+add 41.5 38.2
+add 38.5 39.5
+add 35.5 40.7
+add 33 43
+add 30.7 45.5
+add 29.5 48.5
+add 28.2 51.5
+add 28 55
+aput
+
+;text1
+tlyr 61
+tsiz 3
+text 45 55 3E
+
+;text2
+tlyr 61
+tsiz 3
+text 45 20 1C
+
+;text3
+tlyr 61
+tsiz 3
+text 45 90 2B
+
+fit

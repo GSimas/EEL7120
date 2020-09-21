@@ -1,0 +1,23 @@
+*header for 180nm process lambda=.1
+
+.options reltol=.01 rshunt=1e9 scale=.1
+.global vdd
+
+vdd vdd 0 DC 3V
+vin2 in2 0 DC 1.5V
+
+*vin1 in1 0 DC 1.5V AC PULSE(1.495 1.505 10ns 1ns 1ns 20ns 50ns) 
+vin1 in1 0 DC 0 AC SIN(1.5 .01 500khz)
+
+co out 0 100ff
+rbias ibias Vdd 60k
+
+.control
+destroy all
+tran 5ns 5us
+*ac dec 5 10k 1e9
+save all
+
+plot  i(vdd)
+plot v(in1) v(in2) v(out)
+.endc

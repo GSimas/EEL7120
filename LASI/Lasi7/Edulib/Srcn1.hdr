@@ -1,0 +1,17 @@
+*header for 180nm process lambda=.1
+
+*single long channel NMOS transistor (Id-Vd) ***
+.global vdd
+.options scale=.1
+ 
+vdd vdd 0 dc 3
+
+vds nd 0 dc 0 
+
+.control
+destroy all
+dc vds 3 0 -0.05
+save all
+plot i(vds)
+.endc
+

@@ -1,0 +1,16 @@
+*** Node List of BUF2 - LasiCkt  7.0.95  05/05/20  16:12:05
+
+Note: Read Text with Fixed Pitch Font
+
+[BUF2]
+0:1
+ M1.3  M1.4  M2.3  M2.4 
+In:3
+ M1.2  M3.2 
+Out:4
+ M2.1  M4.1 
+Vdd:2
+ M3.3  M3.4  M4.3  M4.4 
+vn1:0
+ M1.1  M2.2  M3.1  M4.2 
+::

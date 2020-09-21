@@ -1,0 +1,35 @@
+*header for 180nm process lambda=.1
+
+.options reltol=.01 rshunt=1e9 scale=.1
+.global vdd
+
+vdd vdd 0 DC 3V
+vin2 in2 0 DC 1.5V
+
+*square wave drive
+*vin in 0 DC 1.5V AC PULSE(1.45 1.55 10ns 1ns 1ns .5us 1us)
+
+*linear drive 
+vin in 0 DC 0 AC SIN(1.5 .1 1meg)
+
+*overdriven
+*vin in 0 DC 0 AC SIN(1.5 .5 1meg)
+
+co out 0 1000ff
+
+rout out in2 100k
+rin in in1 10k
+rfb out in1 100k
+
+rbias vdd ibias 60k
+
+.control
+destroy all
+save all
+tran 1ns 2us
+*ac dec 5 10k 1e9
+
+plot  i(vdd) (v(ibias)-v(vdd))/60K
+plot v(in) v(out) v(in1) v(in2)
+
+.endc

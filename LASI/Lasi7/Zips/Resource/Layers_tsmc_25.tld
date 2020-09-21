@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<TLC>
+;TSMC_25 process layers
+
+;Derived from MOSIS layer map
+;Always consult www.mosis.org for changes and additional information
+
+;Layer numbers are GDSII layer numbers
+;Comment indicates CIF layer names
+
+;This file will add the necessary layers to the layout
+;Install as TLD file with TLCin command
+
+<L>
+26
+NWELL 2		;T02
+DEEPNWEL 82	;T82 	Optional
+THINOX3 3	;T03
+THINOX11 11	;T11
+THINOX12 12	;T12
+THICKOX 4	;T04 	Optional
+POLY 13		;T13
+RPO 34		;T34 	Optional
+2VN 61		;T61 	Derived if omitted
+3VN 5		;T05 	Derived if omitted
+NT_N 129	;T129 	Optional
+P+SELECT 7	;T07
+N+SELECT 8	;T08
+ESD_3V 30	;T30 	Optional
+CONTACT 15	;T15
+METAL1 16	;T16
+VIA1 17		;T17
+METAL2 18	;T18
+VIA2 27		;T27
+METAL3 28	;T28
+VIA3 29		;T29
+METAL4 31	;T31
+CTOPMET 67	;T67 	Optional, use GDS Datatype 4
+VIA4 32		;T32
+METAL5 33	;T33
+GLASS 19	;T19
+</L>
+</TLC>

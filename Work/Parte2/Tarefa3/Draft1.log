@@ -1,0 +1,29 @@
+Circuit: * C:\Users\Gustavo Simas\Documents\GitHub\EEL7120\Work\Tarefa3\Draft1.asc
+
+Number of points per decade reduced from 10000 to 7726.
+C2: Increased Cpar to 4.7e-018
+.step temp=-55°C
+.step temp=-30°C
+.step temp=-5°C
+.step temp=20°C
+.step temp=45°C
+.step temp=70°C
+.step temp=95°C
+.step temp=120°C
+.step temp=125°C
+
+Date: Sat Sep 26 17:33:18 2020
+Total elapsed time: 1.006 seconds.
+
+tnom = 27
+temp = 125
+method = trap
+totiter = 0
+traniter = 0
+tranpoints = 0
+accept = 0
+rejected = 0
+matrix size = 2
+fillins = 0
+solver = Normal
+

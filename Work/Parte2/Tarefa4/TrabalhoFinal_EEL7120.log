@@ -1,0 +1,25 @@
+Circuit: * C:\Users\Gustavo Simas\Documents\GitHub\EEL7120\Work\Parte2\Tarefa4\TrabalhoFinal_EEL7120.asc
+
+Limiting rise time of source va to 1e-009
+Limiting fall time of source va to 1e-009
+Limiting rise time of source vb to 1e-009
+Limiting fall time of source vb to 1e-009
+.OP point found by inspection.
+
+Date: Mon Sep 28 11:31:02 2020
+Total elapsed time: 0.281 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 20122
+traniter = 20122
+tranpoints = 10062
+accept = 7195
+rejected = 2867
+matrix size = 12
+fillins = 0
+solver = Normal
+Matrix Compiler1: 446 bytes object code size  0.1/0.1/[0.1]
+Matrix Compiler2: 818 bytes object code size  0.1/0.1/[0.1]
+

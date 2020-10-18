@@ -1,0 +1,96 @@
+EDA Netlist Writer report for Sum_Sub
+Sun Oct 18 15:43:53 2020
+Quartus II 64-Bit Version 13.0.0 Build 156 04/24/2013 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. EDA Netlist Writer Summary
+  3. Simulation Settings
+  4. Simulation Generated Files
+  5. EDA Netlist Writer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------+
+; EDA Netlist Writer Summary                                        ;
++---------------------------+---------------------------------------+
+; EDA Netlist Writer Status ; Successful - Sun Oct 18 15:43:53 2020 ;
+; Revision Name             ; Sum_Sub                               ;
+; Top-level Entity Name     ; Sum_Sub                               ;
+; Family                    ; Cyclone II                            ;
+; Simulation Files Creation ; Successful                            ;
++---------------------------+---------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Simulation Settings                                                                                                        ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Option                                                                                            ; Setting                ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Tool Name                                                                                         ; ModelSim-Altera (VHDL) ;
+; Generate netlist for functional simulation only                                                   ; Off                    ;
+; Time scale                                                                                        ; 1 ps                   ;
+; Truncate long hierarchy paths                                                                     ; Off                    ;
+; Map illegal HDL characters                                                                        ; Off                    ;
+; Flatten buses into individual nodes                                                               ; Off                    ;
+; Maintain hierarchy                                                                                ; Off                    ;
+; Bring out device-wide set/reset signals as ports                                                  ; Off                    ;
+; Enable glitch filtering                                                                           ; Off                    ;
+; Do not write top level VHDL entity                                                                ; Off                    ;
+; Disable detection of setup and hold time violations in the input registers of bi-directional pins ; Off                    ;
+; Architecture name in VHDL output netlist                                                          ; structure              ;
+; Generate third-party EDA tool command script for RTL functional simulation                        ; Off                    ;
+; Generate third-party EDA tool command script for gate-level simulation                            ; Off                    ;
++---------------------------------------------------------------------------------------------------+------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Simulation Generated Files                                                                                     ;
++----------------------------------------------------------------------------------------------------------------+
+; Generated Files                                                                                                ;
++----------------------------------------------------------------------------------------------------------------+
+; C:/Users/Gustavo Simas/Downloads/Sum_Sub-20201018T183530Z-001/Sum_Sub/simulation/modelsim/Sum_Sub.vho          ;
+; C:/Users/Gustavo Simas/Downloads/Sum_Sub-20201018T183530Z-001/Sum_Sub/simulation/modelsim/Sum_Sub_fast.vho     ;
+; C:/Users/Gustavo Simas/Downloads/Sum_Sub-20201018T183530Z-001/Sum_Sub/simulation/modelsim/Sum_Sub_vhd.sdo      ;
+; C:/Users/Gustavo Simas/Downloads/Sum_Sub-20201018T183530Z-001/Sum_Sub/simulation/modelsim/Sum_Sub_vhd_fast.sdo ;
++----------------------------------------------------------------------------------------------------------------+
+
+
++-----------------------------+
+; EDA Netlist Writer Messages ;
++-----------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit EDA Netlist Writer
+    Info: Version 13.0.0 Build 156 04/24/2013 SJ Web Edition
+    Info: Processing started: Sun Oct 18 15:43:52 2020
+Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off Sum_Sub -c Sum_Sub
+Info (204026): Generated files "Sum_Sub.vho", "Sum_Sub_fast.vho", "Sum_Sub_vhd.sdo" and "Sum_Sub_vhd_fast.sdo" in directory "C:/Users/Gustavo Simas/Downloads/Sum_Sub-20201018T183530Z-001/Sum_Sub/simulation/modelsim/" for EDA simulation tool
+Info: Quartus II 64-Bit EDA Netlist Writer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 4532 megabytes
+    Info: Processing ended: Sun Oct 18 15:43:53 2020
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

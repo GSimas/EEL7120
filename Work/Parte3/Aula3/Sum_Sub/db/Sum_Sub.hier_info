@@ -1,0 +1,113 @@
+|Sum_Sub
+A[0] => fulladder:FA1.A
+A[1] => fulladder:FA2.A
+A[2] => fulladder:FA3.A
+A[3] => fulladder:FA4.A
+B[0] => mode:MOD1.I0
+B[1] => mode:MOD2.I0
+B[2] => mode:MOD3.I0
+B[3] => mode:MOD4.I0
+C[0] => mode:MOD1.I1
+C[0] => fulladder:FA1.Cin
+C[0] => mode:MOD2.I1
+C[0] => mode:MOD3.I1
+C[0] => mode:MOD4.I1
+C[1] => mode:MOD1.I2
+C[1] => mode:MOD2.I2
+C[1] => mode:MOD3.I2
+C[1] => mode:MOD4.I2
+S[0] <= fulladder:FA1.Sum
+S[1] <= fulladder:FA2.Sum
+S[2] <= fulladder:FA3.Sum
+S[3] <= fulladder:FA4.Sum
+Overflow <= Overflow.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|mode:MOD1
+I0 => R.IN0
+I0 => R.IN0
+I1 => R.IN1
+I2 => R.IN1
+R <= R.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|fulladder:FA1
+A => Sum.IN0
+A => Cout.IN0
+A => Cout.IN0
+B => Sum.IN1
+B => Cout.IN1
+B => Cout.IN0
+Cin => Sum.IN1
+Cin => Cout.IN1
+Cin => Cout.IN1
+Sum <= Sum.DB_MAX_OUTPUT_PORT_TYPE
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|mode:MOD2
+I0 => R.IN0
+I0 => R.IN0
+I1 => R.IN1
+I2 => R.IN1
+R <= R.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|fulladder:FA2
+A => Sum.IN0
+A => Cout.IN0
+A => Cout.IN0
+B => Sum.IN1
+B => Cout.IN1
+B => Cout.IN0
+Cin => Sum.IN1
+Cin => Cout.IN1
+Cin => Cout.IN1
+Sum <= Sum.DB_MAX_OUTPUT_PORT_TYPE
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|mode:MOD3
+I0 => R.IN0
+I0 => R.IN0
+I1 => R.IN1
+I2 => R.IN1
+R <= R.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|fulladder:FA3
+A => Sum.IN0
+A => Cout.IN0
+A => Cout.IN0
+B => Sum.IN1
+B => Cout.IN1
+B => Cout.IN0
+Cin => Sum.IN1
+Cin => Cout.IN1
+Cin => Cout.IN1
+Sum <= Sum.DB_MAX_OUTPUT_PORT_TYPE
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|mode:MOD4
+I0 => R.IN0
+I0 => R.IN0
+I1 => R.IN1
+I2 => R.IN1
+R <= R.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Sum_Sub|fulladder:FA4
+A => Sum.IN0
+A => Cout.IN0
+A => Cout.IN0
+B => Sum.IN1
+B => Cout.IN1
+B => Cout.IN0
+Cin => Sum.IN1
+Cin => Cout.IN1
+Cin => Cout.IN1
+Sum <= Sum.DB_MAX_OUTPUT_PORT_TYPE
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+
+

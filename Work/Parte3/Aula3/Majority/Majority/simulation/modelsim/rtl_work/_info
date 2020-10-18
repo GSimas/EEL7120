@@ -1,0 +1,49 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/100000000820483/Documents/Majority/simulation/modelsim
+Emajority
+Z1 w1603051778
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z4 8/home/100000000820483/Documents/Majority/Majority.vhd
+Z5 F/home/100000000820483/Documents/Majority/Majority.vhd
+l0
+L10
+VE2hOiV;fdaDYP?W@Ze`^C3
+!s100 j^:D@E`QHI7N:WZBB1e4U0
+Z6 OV;C;10.3d;59
+31
+Z7 !s110 1603052158
+!i10b 1
+Z8 !s108 1603052158.207793
+Z9 !s90 -reportprogress|300|-93|-work|work|/home/100000000820483/Documents/Majority/Majority.vhd|
+Z10 !s107 /home/100000000820483/Documents/Majority/Majority.vhd|
+!i113 1
+Z11 o-93 -work work
+Z12 tExplicit 1
+Acircuito_logico
+R2
+R3
+DEx4 work 8 majority 0 22 E2hOiV;fdaDYP?W@Ze`^C3
+l19
+L17
+VBhzSAf[di_U6<S7e7XQ8c0
+!s100 AZfEB;EnRo9NigY^9UNa=0
+R6
+31
+R7
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+R12

@@ -1,0 +1,73 @@
+# do Majority_run_msim_rtl_vhdl.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim LE vmap 10.3d Lib Mapping Utility 2014.10 Oct  7 2014
+# vmap -modelsim_quiet work rtl_work 
+# Copying /opt/altera/15.0/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied /opt/altera/15.0/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vcom -93 -work work {/home/100000000820483/Documents/Majority/Majority.vhd}
+# Model Technology ModelSim ALTERA vcom 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 17:15:57 on Oct 18,2020
+# vcom -reportprogress 300 -93 -work work /home/100000000820483/Documents/Majority/Majority.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity majority
+# -- Compiling architecture circuito_logico of majority
+# End time: 17:15:58 on Oct 18,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+vsim work.majority
+# vsim -i -l msim_transcript -do "Majority_run_msim_rtl_vhdl.do" 
+# Start time: 17:16:09 on Oct 18,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.majority(circuito_logico)
+add wave -position insertpoint  \
+sim:/majority/A \
+sim:/majority/B \
+sim:/majority/C \
+sim:/majority/Y
+force -freeze sim:/majority/A 0 0
+force -freeze sim:/majority/B 0 0
+force -freeze sim:/majority/C 0 0
+run -continue
+run
+force -freeze sim:/majority/C 1 0
+run
+force -freeze sim:/majority/C 0 0
+force -freeze sim:/majority/B 1 0
+run
+force -freeze sim:/majority/C 1 0
+run
+force -freeze sim:/majority/C 0 0
+force -freeze sim:/majority/B 0 0
+force -freeze sim:/majority/A 1 0
+run
+force -freeze sim:/majority/C 1 0
+run
+force -freeze sim:/majority/C 0 0
+force -freeze sim:/majority/B 1 0
+run
+force -freeze sim:/majority/C 1 0
+run
+force -freeze sim:/majority/A 0 0
+do Majority_testbench.do
+restart
+do Majority_testbench.do
+do Majority_testbench.do
+restart
+do Majority_testbench.do
+restart
+do Majority_testbench.do
+restart
+do Majority_testbench.do
+# End time: 17:37:13 on Oct 18,2020, Elapsed time: 0:21:04
+# Errors: 0, Warnings: 0

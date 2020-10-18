@@ -1,0 +1,21 @@
+Circuit: * C:\Users\Gustavo Simas\Documents\GitHub\EEL7120\Work\Parte2\Tarefa4\Draft1.asc
+
+.OP point found by inspection.
+
+Date: Tue Oct 13 11:43:18 2020
+Total elapsed time: 0.153 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 2082
+traniter = 2082
+tranpoints = 1042
+accept = 1042
+rejected = 0
+matrix size = 4
+fillins = 0
+solver = Normal
+Matrix Compiler1: 82 bytes object code size  0.0/0.0/[0.0]
+Matrix Compiler2: 188 bytes object code size  0.0/0.0/[0.0]
+

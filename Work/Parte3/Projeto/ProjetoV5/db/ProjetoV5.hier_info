@@ -1,0 +1,97 @@
+|ProjetoV5_apartadoC
+A[0] => SomadorArit:Somador.A[0]
+A[1] => SomadorArit:Somador.A[1]
+A[2] => SomadorArit:Somador.A[2]
+A[3] => SomadorArit:Somador.A[3]
+A[4] => SomadorArit:Somador.A[4]
+A[5] => SomadorArit:Somador.A[5]
+A[6] => SomadorArit:Somador.A[6]
+A[7] => SomadorArit:Somador.A[7]
+C[0] => mux_4to1:Multiplexer_4_1.S[0]
+C[1] => mux_4to1:Multiplexer_4_1.S[1]
+F[0] <= SomadorArit:Somador.S[0]
+F[1] <= SomadorArit:Somador.S[1]
+F[2] <= SomadorArit:Somador.S[2]
+F[3] <= SomadorArit:Somador.S[3]
+F[4] <= SomadorArit:Somador.S[4]
+F[5] <= SomadorArit:Somador.S[5]
+F[6] <= SomadorArit:Somador.S[6]
+F[7] <= SomadorArit:Somador.S[7]
+
+
+|ProjetoV5_apartadoC|mux_4to1:Multiplexer_4_1
+A[0] => Z.DATAB
+A[1] => Z.DATAB
+A[2] => Z.DATAB
+A[3] => Z.DATAB
+A[4] => Z.DATAB
+A[5] => Z.DATAB
+A[6] => Z.DATAB
+A[7] => Z.DATAB
+B[0] => Z.DATAB
+B[1] => Z.DATAB
+B[2] => Z.DATAB
+B[3] => Z.DATAB
+B[4] => Z.DATAB
+B[5] => Z.DATAB
+B[6] => Z.DATAB
+B[7] => Z.DATAB
+C[0] => Z.DATAB
+C[1] => Z.DATAB
+C[2] => Z.DATAB
+C[3] => Z.DATAB
+C[4] => Z.DATAB
+C[5] => Z.DATAB
+C[6] => Z.DATAB
+C[7] => Z.DATAB
+D[0] => Z.DATAA
+D[1] => Z.DATAA
+D[2] => Z.DATAA
+D[3] => Z.DATAA
+D[4] => Z.DATAA
+D[5] => Z.DATAA
+D[6] => Z.DATAA
+D[7] => Z.DATAA
+S[0] => Equal0.IN1
+S[0] => Equal1.IN1
+S[0] => Equal2.IN0
+S[1] => Equal0.IN0
+S[1] => Equal1.IN0
+S[1] => Equal2.IN1
+Z[0] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[1] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[2] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[3] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[4] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[5] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[6] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+Z[7] <= Z.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|ProjetoV5_apartadoC|SomadorArit:Somador
+A[0] => Add0.IN8
+A[1] => Add0.IN7
+A[2] => Add0.IN6
+A[3] => Add0.IN5
+A[4] => Add0.IN4
+A[5] => Add0.IN3
+A[6] => Add0.IN2
+A[7] => Add0.IN1
+B[0] => Add0.IN16
+B[1] => Add0.IN15
+B[2] => Add0.IN14
+B[3] => Add0.IN13
+B[4] => Add0.IN12
+B[5] => Add0.IN11
+B[6] => Add0.IN10
+B[7] => Add0.IN9
+S[0] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[1] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[2] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[3] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[4] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[5] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[6] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+S[7] <= Add0.DB_MAX_OUTPUT_PORT_TYPE
+
+

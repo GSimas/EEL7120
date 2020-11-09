@@ -1,0 +1,72 @@
+# do ProjetoV5_run_msim_rtl_vhdl.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying /opt/altera/13.0sp1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied /opt/altera/13.0sp1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vcom -93 -work work {/home/100000000820483/Documents/ProjetoV5/mux_4to1.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity mux_4to1
+# -- Compiling architecture bhv of mux_4to1
+# vcom -93 -work work {/home/100000000820483/Documents/ProjetoV5/SomadorArit.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Loading package std_logic_arith
+# -- Loading package STD_LOGIC_SIGNED
+# -- Compiling entity SomadorArit
+# -- Compiling architecture SomadorArit_arch of SomadorArit
+# vcom -93 -work work {/home/100000000820483/Documents/ProjetoV5/ProjetoV5_apartadoC.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity ProjetoV5_apartadoC
+# -- Compiling architecture ProjetoV5_apartadoC_arch of ProjetoV5_apartadoC
+# 
+vsim work.projetov5_apartadoc
+# vsim work.projetov5_apartadoc 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.projetov5_apartadoc(projetov5_apartadoc_arch)
+# Loading work.mux_4to1(bhv)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_signed(body)
+# Loading work.somadorarit(somadorarit_arch)
+add wave  \
+sim:/projetov5_apartadoc/A \
+sim:/projetov5_apartadoc/C
+force -freeze sim:/projetov5_apartadoc/C 00 0
+force -freeze sim:/projetov5_apartadoc/A 00000100 0
+run
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /projetov5_apartadoc/Somador
+add wave  \
+sim:/projetov5_apartadoc/F
+restart
+force -freeze sim:/projetov5_apartadoc/A 00000100 0
+force -freeze sim:/projetov5_apartadoc/C 00 0
+run
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /projetov5_apartadoc/Somador
+noforce sim:/projetov5_apartadoc/A
+force -freeze sim:/projetov5_apartadoc/A 00000100 0
+force -freeze sim:/projetov5_apartadoc/C 01 0
+run
+force -freeze sim:/projetov5_apartadoc/C 10 0
+run
+force -freeze sim:/projetov5_apartadoc/C 11 0
+run
